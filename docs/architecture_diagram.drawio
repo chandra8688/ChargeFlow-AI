@@ -1,0 +1,165 @@
+<mxfile host="app.diagrams.net" agent="ChargeFlow AI Hackathon">
+  <diagram name="ChargeFlow AI — 5-Layer Architecture" id="chargeflow-main-arch">
+    <mxGraphModel dx="2575" dy="1318" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1" pageWidth="1440" pageHeight="960" background="#0A0E1A" math="0" shadow="1">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="2" parent="1" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];strokeColor=none;fillColor=none;" value="&lt;font style=&#39;font-size:20px;font-weight:900;letter-spacing:2px;&#39; color=&#39;#00D4AA&#39;&gt;⚡ ChargeFlow AI&lt;/font&gt;&lt;font color=&#39;#8892A4&#39; style=&#39;font-size:14px;&#39;&gt; — 5-Layer Intelligence Architecture&lt;/font&gt;" vertex="1">
+          <mxGeometry height="38" width="1200" x="120" y="10" as="geometry" />
+        </mxCell>
+        <mxCell id="L5_bg" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#12123A;strokeColor=#7B61FF;strokeWidth=2.5;arcSize=2;" value="" vertex="1">
+          <mxGeometry height="130" width="1360" x="40" y="55" as="geometry" />
+        </mxCell>
+        <mxCell id="L5_label" parent="1" style="text;html=1;align=center;verticalAlign=middle;strokeColor=none;fillColor=none;fontColor=#7B61FF;fontSize=8;fontStyle=1;letterSpacing=1;" value="&lt;b&gt;LAYER 5&lt;/b&gt;&#xa;USER&#xa;INTERFACES" vertex="1">
+          <mxGeometry height="130" width="58" x="42" y="55" as="geometry" />
+        </mxCell>
+        <mxCell id="L5_driver" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#1A1A40;strokeColor=#7B61FF;strokeWidth=1.5;fontColor=#E2E8F0;arcSize=8;verticalAlign=middle;" value="&lt;b style=&#39;font-size:13px;&#39;&gt;🚗 Driver App&lt;/b&gt;&lt;br/&gt;&lt;font color=&#39;#8892A4&#39; style=&#39;font-size:10px;&#39;&gt;Real-time routing &amp; wait estimates&lt;br/&gt;Battery guidance · Charger match&lt;/font&gt;" vertex="1">
+          <mxGeometry height="82" width="290" x="118" y="78" as="geometry" />
+        </mxCell>
+        <mxCell id="L5_dashboard" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#0A2B22;strokeColor=#00D4AA;strokeWidth=2.5;fontColor=#E2E8F0;arcSize=8;verticalAlign=middle;" value="&lt;b style=&#39;font-size:13px;color:#00D4AA;&#39;&gt;📊 Operator Dashboard&lt;/b&gt;&lt;br/&gt;&lt;font color=&#39;#8892A4&#39; style=&#39;font-size:10px;&#39;&gt;Streamlit · Live KPIs · AI Alerts&lt;br/&gt;Analytics · Operator Leaderboard&lt;/font&gt;" vertex="1">
+          <mxGeometry height="82" width="290" x="555" y="78" as="geometry" />
+        </mxCell>
+        <mxCell id="L5_admin" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#1A1A40;strokeColor=#7B61FF;strokeWidth=1.5;fontColor=#E2E8F0;arcSize=8;verticalAlign=middle;" value="&lt;b style=&#39;font-size:13px;&#39;&gt;⚙️ Admin Console&lt;/b&gt;&lt;br/&gt;&lt;font color=&#39;#8892A4&#39; style=&#39;font-size:10px;&#39;&gt;CPO onboarding · Policy config&lt;br/&gt;Network-level oversight&lt;/font&gt;" vertex="1">
+          <mxGeometry height="82" width="290" x="995" y="78" as="geometry" />
+        </mxCell>
+        <mxCell id="L4_bg" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#081F1A;strokeColor=#00D4AA;strokeWidth=3;arcSize=2;" value="" vertex="1">
+          <mxGeometry height="182" width="1360" x="40" y="228" as="geometry" />
+        </mxCell>
+        <mxCell id="L4_label" parent="1" style="text;html=1;align=center;verticalAlign=middle;strokeColor=none;fillColor=none;fontColor=#00D4AA;fontSize=8;fontStyle=1;letterSpacing=1;" value="&lt;b&gt;LAYER 4&lt;/b&gt;&#xa;&lt;font color=&#39;#00D4AA&#39;&gt;AI ENGINE&lt;/font&gt;" vertex="1">
+          <mxGeometry height="182" width="58" x="42" y="228" as="geometry" />
+        </mxCell>
+        <mxCell id="L4_glow" parent="1" style="text;html=1;align=center;verticalAlign=middle;strokeColor=none;fillColor=none;" value="&lt;font color=&#39;#00D4AA&#39; style=&#39;font-size:9px;letter-spacing:3px;&#39;&gt;✦  CHARGEFLOW AI ENGINE  ✦&lt;/font&gt;" vertex="1">
+          <mxGeometry height="18" width="600" x="400" y="228" as="geometry" />
+        </mxCell>
+        <mxCell id="L4_demand" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#0D2B25;strokeColor=#00D4AA;strokeWidth=2;fontColor=#E2E8F0;arcSize=8;verticalAlign=middle;" value="&lt;b style=&#39;font-size:13px;color:#00D4AA;&#39;&gt;🔮 Demand Predictor&lt;/b&gt;&lt;br/&gt;&lt;font color=&#39;#00D4AA&#39; style=&#39;font-size:10px;&#39;&gt;Random Forest Regressor&lt;/font&gt;&lt;br/&gt;&lt;font color=&#39;#8892A4&#39; style=&#39;font-size:10px;&#39;&gt;100 trees · 8 features · R²=0.73&lt;br/&gt;24-hr forecast + confidence band&lt;/font&gt;" vertex="1">
+          <mxGeometry height="132" width="325" x="105" y="252" as="geometry" />
+        </mxCell>
+        <mxCell id="L4_wait" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#0D2B25;strokeColor=#00D4AA;strokeWidth=2;fontColor=#E2E8F0;arcSize=8;verticalAlign=middle;" value="&lt;b style=&#39;font-size:13px;color:#00D4AA;&#39;&gt;⏱️ Wait Time Estimator&lt;/b&gt;&lt;br/&gt;&lt;font color=&#39;#00D4AA&#39; style=&#39;font-size:10px;&#39;&gt;M/M/c Queueing + GBR Correction&lt;/font&gt;&lt;br/&gt;&lt;font color=&#39;#8892A4&#39; style=&#39;font-size:10px;&#39;&gt;Erlang-C formula (physics layer)&lt;br/&gt;ML corrects non-Poisson peaks&lt;/font&gt;" vertex="1">
+          <mxGeometry height="132" width="325" x="558" y="252" as="geometry" />
+        </mxCell>
+        <mxCell id="L4_rec" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#0D2B25;strokeColor=#00D4AA;strokeWidth=2;fontColor=#E2E8F0;arcSize=8;verticalAlign=middle;" value="&lt;b style=&#39;font-size:13px;color:#00D4AA;&#39;&gt;🧭 Station Recommender&lt;/b&gt;&lt;br/&gt;&lt;font color=&#39;#00D4AA&#39; style=&#39;font-size:10px;&#39;&gt;Weighted Multi-Criteria Scoring&lt;/font&gt;&lt;br/&gt;&lt;font color=&#39;#8892A4&#39; style=&#39;font-size:10px;&#39;&gt;Proximity · Availability · Wait&lt;br/&gt;Haversine · Charger compat. filter&lt;/font&gt;" vertex="1">
+          <mxGeometry height="132" width="325" x="1011" y="252" as="geometry" />
+        </mxCell>
+        <mxCell id="A_d2w" edge="1" parent="1" source="L4_demand" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#00D4AA;strokeWidth=1.5;endArrow=open;endFill=0;dashed=1;dashPattern=6 3;fontColor=#8892A4;fontSize=9;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" target="L4_wait" value="&lt;font color=&#39;#8892A4&#39; style=&#39;font-size:9px;&#39;&gt;demand signals&lt;/font&gt;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="A_w2r" edge="1" parent="1" source="L4_wait" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#00D4AA;strokeWidth=1.5;endArrow=open;endFill=0;dashed=1;dashPattern=6 3;fontColor=#8892A4;fontSize=9;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" target="L4_rec" value="&lt;font color=&#39;#8892A4&#39; style=&#39;font-size:9px;&#39;&gt;queue state&lt;/font&gt;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="L3_bg" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#1F1A08;strokeColor=#FFB347;strokeWidth=2;arcSize=2;" value="" vertex="1">
+          <mxGeometry height="112" width="1360" x="40" y="455" as="geometry" />
+        </mxCell>
+        <mxCell id="L3_label" parent="1" style="text;html=1;align=center;verticalAlign=middle;strokeColor=none;fillColor=none;fontColor=#FFB347;fontSize=8;fontStyle=1;letterSpacing=1;" value="&lt;b&gt;LAYER 3&lt;/b&gt;&#xa;ORCHESTRATION" vertex="1">
+          <mxGeometry height="112" width="58" x="47" y="455" as="geometry" />
+        </mxCell>
+        <mxCell id="L3_lb" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#2B200A;strokeColor=#FFB347;strokeWidth=1.5;fontColor=#E2E8F0;arcSize=8;verticalAlign=middle;" value="&lt;b style=&#39;font-size:12px;&#39;&gt;⚖️ Load Balancer&lt;/b&gt;&lt;br/&gt;&lt;font color=&#39;#8892A4&#39; style=&#39;font-size:10px;&#39;&gt;Cross-station demand routing&lt;/font&gt;" vertex="1">
+          <mxGeometry height="72" width="295" x="115" y="475" as="geometry" />
+        </mxCell>
+        <mxCell id="L3_qm" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#2B200A;strokeColor=#FFB347;strokeWidth=1.5;fontColor=#E2E8F0;arcSize=8;verticalAlign=middle;" value="&lt;b style=&#39;font-size:12px;&#39;&gt;🔄 Queue Manager&lt;/b&gt;&lt;br/&gt;&lt;font color=&#39;#8892A4&#39; style=&#39;font-size:10px;&#39;&gt;Real-time queue orchestration&lt;/font&gt;" vertex="1">
+          <mxGeometry height="72" width="295" x="573" y="475" as="geometry" />
+        </mxCell>
+        <mxCell id="L3_sr" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#2B200A;strokeColor=#FFB347;strokeWidth=1.5;fontColor=#E2E8F0;arcSize=8;verticalAlign=middle;" value="&lt;b style=&#39;font-size:12px;&#39;&gt;🗺️ Smart Router&lt;/b&gt;&lt;br/&gt;&lt;font color=&#39;#8892A4&#39; style=&#39;font-size:10px;&#39;&gt;Driver → optimal station path&lt;/font&gt;" vertex="1">
+          <mxGeometry height="72" width="295" x="1031" y="475" as="geometry" />
+        </mxCell>
+        <mxCell id="L2_bg" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#081525;strokeColor=#4B9EFF;strokeWidth=2;arcSize=2;" value="" vertex="1">
+          <mxGeometry height="112" width="1360" x="40" y="613" as="geometry" />
+        </mxCell>
+        <mxCell id="sOHGNKky2wyKZy2oW2um-2" edge="1" parent="1" source="L2_label" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="19.923142653245122" y="669" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="L2_label" parent="1" style="text;html=1;align=center;verticalAlign=middle;strokeColor=none;fillColor=none;fontColor=#4B9EFF;fontSize=8;fontStyle=1;letterSpacing=1;" value="&lt;b&gt;LAYER 2&lt;/b&gt;&#xa;DATA&#xa;AGGREGATION" vertex="1">
+          <mxGeometry height="112" width="58" x="47" y="613" as="geometry" />
+        </mxCell>
+        <mxCell id="L2_tel" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#0A1B2E;strokeColor=#4B9EFF;strokeWidth=1.5;fontColor=#E2E8F0;arcSize=8;verticalAlign=middle;" value="&lt;b style=&#39;font-size:11px;&#39;&gt;📡 Station Telemetry&lt;/b&gt;&lt;br/&gt;&lt;font color=&#39;#8892A4&#39; style=&#39;font-size:10px;&#39;&gt;OCPP 2.0 event stream&lt;/font&gt;" vertex="1">
+          <mxGeometry height="70" width="253" x="113" y="636" as="geometry" />
+        </mxCell>
+        <mxCell id="L2_sess" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#0A1B2E;strokeColor=#4B9EFF;strokeWidth=1.5;fontColor=#E2E8F0;arcSize=8;verticalAlign=middle;" value="&lt;b style=&#39;font-size:11px;&#39;&gt;🗂️ Session Logs&lt;/b&gt;&lt;br/&gt;&lt;font color=&#39;#8892A4&#39; style=&#39;font-size:10px;&#39;&gt;Historical usage patterns&lt;/font&gt;" vertex="1">
+          <mxGeometry height="70" width="253" x="392" y="634" as="geometry" />
+        </mxCell>
+        <mxCell id="L2_grid" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#0A1B2E;strokeColor=#4B9EFF;strokeWidth=1.5;fontColor=#E2E8F0;arcSize=8;verticalAlign=middle;" value="&lt;b style=&#39;font-size:11px;&#39;&gt;⚡ Grid Load Signals&lt;/b&gt;&lt;br/&gt;&lt;font color=&#39;#8892A4&#39; style=&#39;font-size:10px;&#39;&gt;ToU pricing · Demand response&lt;/font&gt;" vertex="1">
+          <mxGeometry height="70" width="253" x="679" y="634" as="geometry" />
+        </mxCell>
+        <mxCell id="L2_ctx" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#0A1B2E;strokeColor=#4B9EFF;strokeWidth=1.5;fontColor=#E2E8F0;arcSize=8;verticalAlign=middle;" value="&lt;b style=&#39;font-size:11px;&#39;&gt;🌤️ Contextual Signals&lt;/b&gt;&lt;br/&gt;&lt;font color=&#39;#8892A4&#39; style=&#39;font-size:10px;&#39;&gt;Weather · Traffic · Events&lt;/font&gt;" vertex="1">
+          <mxGeometry height="70" width="253" x="966" y="634" as="geometry" />
+        </mxCell>
+        <mxCell id="L1_bg" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#111111;strokeColor=#8892A4;strokeWidth=2;strokeDashArray=8 4;arcSize=2;" value="" vertex="1">
+          <mxGeometry height="128" width="1360" x="40" y="773" as="geometry" />
+        </mxCell>
+        <mxCell id="L1_label" parent="1" style="text;html=1;align=center;verticalAlign=middle;strokeColor=none;fillColor=none;fontColor=#8892A4;fontSize=8;fontStyle=1;letterSpacing=1;" value="&lt;b&gt;LAYER 1&lt;/b&gt;&#xa;PHYSICAL&#xa;INFRA" vertex="1">
+          <mxGeometry height="128" width="58" x="42" y="773" as="geometry" />
+        </mxCell>
+        <mxCell id="L1_ocpp" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#1A1A1A;strokeColor=#8892A4;strokeWidth=1.5;fontColor=#8892A4;arcSize=8;verticalAlign=middle;" value="&lt;b style=&#39;font-size:12px;&#39;&gt;🔌 OCPP 2.0 Chargers&lt;/b&gt;&lt;br/&gt;&lt;font color=&#39;#8892A4&#39; style=&#39;font-size:10px;&#39;&gt;Smart EV charger hardware&lt;br/&gt;Bidirectional comms · Smart metering&lt;/font&gt;" vertex="1">
+          <mxGeometry height="88" width="295" x="115" y="793" as="geometry" />
+        </mxCell>
+        <mxCell id="L1_iot" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#1A1A1A;strokeColor=#8892A4;strokeWidth=1.5;fontColor=#8892A4;arcSize=8;verticalAlign=middle;" value="&lt;b style=&#39;font-size:12px;&#39;&gt;📡 IoT Sensors&lt;/b&gt;&lt;br/&gt;&lt;font color=&#39;#8892A4&#39; style=&#39;font-size:10px;&#39;&gt;Power meter · Temp · Occupancy&lt;br/&gt;Queue camera (optional Phase 2)&lt;/font&gt;" vertex="1">
+          <mxGeometry height="88" width="295" x="573" y="793" as="geometry" />
+        </mxCell>
+        <mxCell id="L1_oem" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#1A1A1A;strokeColor=#8892A4;strokeWidth=1.5;fontColor=#8892A4;arcSize=8;verticalAlign=middle;" value="&lt;b style=&#39;font-size:12px;&#39;&gt;🚗 EV OEM Telematics&lt;/b&gt;&lt;br/&gt;&lt;font color=&#39;#8892A4&#39; style=&#39;font-size:10px;&#39;&gt;Battery SoC · Range estimation&lt;br/&gt;Pre-conditioning · V2G signals&lt;/font&gt;" vertex="1">
+          <mxGeometry height="88" width="295" x="1031" y="793" as="geometry" />
+        </mxCell>
+        <mxCell id="L1_badge" parent="1" style="text;html=1;align=right;verticalAlign=middle;strokeColor=none;fillColor=none;" value="&lt;font color=&#39;#8892A4&#39; style=&#39;font-size:9px;font-style:italic;&#39;&gt;★ Simulated via synthetic OCPP data generator in Phase 1 prototype&lt;/font&gt;" vertex="1">
+          <mxGeometry height="18" width="470" x="900" y="862" as="geometry" />
+        </mxCell>
+        <mxCell id="A_L1_L2_1" edge="1" parent="1" source="L1_ocpp" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#6A7280;strokeWidth=1.5;endArrow=block;endFill=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" target="L2_tel" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="A_L1_L2_2" edge="1" parent="1" source="L1_iot" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#6A7280;strokeWidth=1.5;endArrow=block;endFill=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" target="L2_sess" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="A_L1_L2_3" edge="1" parent="1" source="L1_oem" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#6A7280;strokeWidth=1.5;endArrow=block;endFill=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" target="L2_ctx" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="A_L2_L3_1" edge="1" parent="1" source="L2_tel" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#4B9EFF;strokeWidth=1.8;endArrow=block;endFill=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" target="L3_lb" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="A_L2_L3_2" edge="1" parent="1" source="L2_sess" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#4B9EFF;strokeWidth=1.8;endArrow=block;endFill=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" target="L3_qm" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="A_L2_L3_3" edge="1" parent="1" source="L2_ctx" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#4B9EFF;strokeWidth=1.8;endArrow=block;endFill=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" target="L3_sr" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="A_L3_L4_1" edge="1" parent="1" source="L3_lb" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#FFB347;strokeWidth=2;endArrow=block;endFill=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" target="L4_demand" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="A_L3_L4_2" edge="1" parent="1" source="L3_qm" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#FFB347;strokeWidth=2;endArrow=block;endFill=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" target="L4_wait" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="A_L3_L4_3" edge="1" parent="1" source="L3_sr" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#FFB347;strokeWidth=2;endArrow=block;endFill=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" target="L4_rec" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="A_L4_L5_1" edge="1" parent="1" source="L4_demand" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#00D4AA;strokeWidth=2.5;endArrow=block;endFill=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;fontColor=#00D4AA;fontSize=9;" target="L5_driver" value="&lt;font color=&#39;#00D4AA&#39; style=&#39;font-size:9px;&#39;&gt;24-hr forecast&lt;/font&gt;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="A_L4_L5_2" edge="1" parent="1" source="L4_wait" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#00D4AA;strokeWidth=2.5;endArrow=block;endFill=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;fontColor=#00D4AA;fontSize=9;" target="L5_dashboard" value="&lt;font color=&#39;#00D4AA&#39; style=&#39;font-size:9px;&#39;&gt;AI insights&lt;/font&gt;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="A_L4_L5_3" edge="1" parent="1" source="L4_rec" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#00D4AA;strokeWidth=2.5;endArrow=block;endFill=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;fontColor=#00D4AA;fontSize=9;" target="L5_admin" value="&lt;font color=&#39;#00D4AA&#39; style=&#39;font-size:9px;&#39;&gt;top-3 stations&lt;/font&gt;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="LEG_bg" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#0D0D14;strokeColor=#1E2733;strokeWidth=1;arcSize=4;" value="" vertex="1">
+          <mxGeometry height="36" width="1360" x="40" y="912" as="geometry" />
+        </mxCell>
+        <mxCell id="LEG_L5" parent="1" style="text;html=1;align=center;verticalAlign=middle;strokeColor=none;fillColor=light-dark(#FFFFFF,transparent);fontSize=10;" value="&lt;font color=&#39;#7B61FF&#39;&gt;■&lt;/font&gt; &lt;font color=&#39;#8892A4&#39;&gt;User Interface Layer&lt;/font&gt;" vertex="1">
+          <mxGeometry height="36" width="200" x="60" y="912" as="geometry" />
+        </mxCell>
+        <mxCell id="LEG_L4" parent="1" style="text;html=1;align=center;verticalAlign=middle;strokeColor=none;fillColor=none;fontSize=10;" value="&lt;font color=&#39;#00D4AA&#39;&gt;■&lt;/font&gt; &lt;font color=&#39;#8892A4&#39;&gt;AI Engine (Core)&lt;/font&gt;" vertex="1">
+          <mxGeometry height="36" width="200" x="280" y="912" as="geometry" />
+        </mxCell>
+        <mxCell id="LEG_L3" parent="1" style="text;html=1;align=center;verticalAlign=middle;strokeColor=none;fillColor=none;fontSize=10;" value="&lt;font color=&#39;#FFB347&#39;&gt;■&lt;/font&gt; &lt;font color=&#39;#8892A4&#39;&gt;Orchestration Layer&lt;/font&gt;" vertex="1">
+          <mxGeometry height="36" width="200" x="500" y="912" as="geometry" />
+        </mxCell>
+        <mxCell id="LEG_L2" parent="1" style="text;html=1;align=center;verticalAlign=middle;strokeColor=none;fillColor=none;fontSize=10;" value="&lt;font color=&#39;#4B9EFF&#39;&gt;■&lt;/font&gt; &lt;font color=&#39;#8892A4&#39;&gt;Data Aggregation&lt;/font&gt;" vertex="1">
+          <mxGeometry height="36" width="200" x="720" y="912" as="geometry" />
+        </mxCell>
+        <mxCell id="LEG_L1" parent="1" style="text;html=1;align=center;verticalAlign=middle;strokeColor=none;fillColor=none;fontSize=10;" value="&lt;font color=&#39;#8892A4&#39;&gt;■&lt;/font&gt; &lt;font color=&#39;#555F6E&#39;&gt;Physical Infra (Simulated)&lt;/font&gt;" vertex="1">
+          <mxGeometry height="36" width="250" x="940" y="912" as="geometry" />
+        </mxCell>
+        <mxCell id="LEG_copy" parent="1" style="text;html=1;align=right;verticalAlign=middle;strokeColor=none;fillColor=none;fontSize=9;" value="&lt;font color=&#39;#555F6E&#39; style=&#39;font-size:9px;&#39;&gt;ETAuto Tech Hackathon 2026 · ChargeFlow AI · IIT Kanpur&lt;/font&gt;" vertex="1">
+          <mxGeometry height="36" width="290" x="1100" y="912" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

@@ -1,0 +1,317 @@
+<mxfile host="app.diagrams.net" modified="2026-05-26" version="21.0.0" type="device">
+  <diagram name="ChargeFlow AI — Decision Flow" id="chargeflow-ai-flow">
+    <mxGraphModel dx="1200" dy="700" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1" pageWidth="1200" pageHeight="820" math="0" shadow="1" background="#0A0E1A">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+
+        <!-- TITLE -->
+        <mxCell id="T1"
+          value="&lt;font color='#00D4AA' style='font-size:18px;font-weight:900;'&gt;⚡ ChargeFlow AI — End-to-End Decision Flow&lt;/font&gt;"
+          style="text;html=1;align=center;verticalAlign=middle;strokeColor=none;fillColor=none;"
+          vertex="1" parent="1">
+          <mxGeometry x="50" y="12" width="1100" height="32" as="geometry" />
+        </mxCell>
+
+        <!-- ═══════════════════════
+             COLUMN 1: USER INPUT
+        ═══════════════════════ -->
+        <mxCell id="C1_bg"
+          value=""
+          style="rounded=1;whiteSpace=wrap;html=1;fillColor=#0D0D14;strokeColor=#1E2733;strokeWidth=1;arcSize=3;"
+          vertex="1" parent="1">
+          <mxGeometry x="30" y="55" width="170" height="720" as="geometry" />
+        </mxCell>
+
+        <mxCell id="C1_title"
+          value="&lt;b style='font-size:10px;letter-spacing:1px;' color='#8892A4'&gt;USER INPUT&lt;/b&gt;"
+          style="text;html=1;align=center;verticalAlign=middle;strokeColor=none;fillColor=none;"
+          vertex="1" parent="1">
+          <mxGeometry x="30" y="60" width="170" height="20" as="geometry" />
+        </mxCell>
+
+        <!-- User input nodes -->
+        <mxCell id="N_gps"
+          value="&lt;b style='color:#E2E8F0;font-size:11px;'&gt;📍 GPS Location&lt;/b&gt;&lt;br/&gt;&lt;font color='#8892A4' style='font-size:9px;'&gt;lat, lon&lt;/font&gt;"
+          style="rounded=1;whiteSpace=wrap;html=1;fillColor=#1A2035;strokeColor=#7B61FF;strokeWidth=1.5;arcSize=8;"
+          vertex="1" parent="1">
+          <mxGeometry x="45" y="100" width="140" height="50" as="geometry" />
+        </mxCell>
+
+        <mxCell id="N_veh"
+          value="&lt;b style='color:#E2E8F0;font-size:11px;'&gt;🚗 Vehicle Type&lt;/b&gt;&lt;br/&gt;&lt;font color='#8892A4' style='font-size:9px;'&gt;model + charger compat.&lt;/font&gt;"
+          style="rounded=1;whiteSpace=wrap;html=1;fillColor=#1A2035;strokeColor=#7B61FF;strokeWidth=1.5;arcSize=8;"
+          vertex="1" parent="1">
+          <mxGeometry x="45" y="175" width="140" height="50" as="geometry" />
+        </mxCell>
+
+        <mxCell id="N_bat"
+          value="&lt;b style='color:#E2E8F0;font-size:11px;'&gt;🔋 Battery SoC&lt;/b&gt;&lt;br/&gt;&lt;font color='#8892A4' style='font-size:9px;'&gt;% remaining · range&lt;/font&gt;"
+          style="rounded=1;whiteSpace=wrap;html=1;fillColor=#1A2035;strokeColor=#7B61FF;strokeWidth=1.5;arcSize=8;"
+          vertex="1" parent="1">
+          <mxGeometry x="45" y="250" width="140" height="50" as="geometry" />
+        </mxCell>
+
+        <mxCell id="N_hist"
+          value="&lt;b style='color:#E2E8F0;font-size:11px;'&gt;📅 Date + Hour&lt;/b&gt;&lt;br/&gt;&lt;font color='#8892A4' style='font-size:9px;'&gt;weekday / weekend&lt;/font&gt;"
+          style="rounded=1;whiteSpace=wrap;html=1;fillColor=#1A2035;strokeColor=#7B61FF;strokeWidth=1.5;arcSize=8;"
+          vertex="1" parent="1">
+          <mxGeometry x="45" y="325" width="140" height="50" as="geometry" />
+        </mxCell>
+
+        <!-- ═══════════════════════
+             COLUMN 2: STEP 1
+        ═══════════════════════ -->
+        <mxCell id="S1_bg"
+          value="&lt;b style='color:#4B9EFF;font-size:9px;letter-spacing:1px;'&gt;STEP 1&lt;/b&gt;"
+          style="rounded=1;whiteSpace=wrap;html=1;fillColor=#081525;strokeColor=#4B9EFF;strokeWidth=1.5;arcSize=3;verticalAlign=top;"
+          vertex="1" parent="1">
+          <mxGeometry x="240" y="90" width="160" height="300" as="geometry" />
+        </mxCell>
+
+        <mxCell id="S1_compat"
+          value="&lt;b style='color:#E2E8F0;font-size:11px;'&gt;🔌 Compatibility&lt;br/&gt;Filter&lt;/b&gt;&lt;br/&gt;&lt;font color='#8892A4' style='font-size:9px;'&gt;Vehicle → charger type&lt;br/&gt;matrix lookup&lt;br/&gt;(10 models × 5 types)&lt;/font&gt;"
+          style="rounded=1;whiteSpace=wrap;html=1;fillColor=#0D1A2B;strokeColor=#4B9EFF;strokeWidth=1.5;arcSize=8;"
+          vertex="1" parent="1">
+          <mxGeometry x="255" y="130" width="130" height="110" as="geometry" />
+        </mxCell>
+
+        <mxCell id="S1_dist"
+          value="&lt;b style='color:#E2E8F0;font-size:11px;'&gt;📏 Haversine&lt;br/&gt;Distance&lt;/b&gt;&lt;br/&gt;&lt;font color='#8892A4' style='font-size:9px;'&gt;GPS → distance (km)&lt;br/&gt;for all candidates&lt;br/&gt;radius filter&lt;/font&gt;"
+          style="rounded=1;whiteSpace=wrap;html=1;fillColor=#0D1A2B;strokeColor=#4B9EFF;strokeWidth=1.5;arcSize=8;"
+          vertex="1" parent="1">
+          <mxGeometry x="255" y="260" width="130" height="110" as="geometry" />
+        </mxCell>
+
+        <!-- ═══════════════════════
+             COLUMN 3: AI ENGINE (center — largest)
+        ═══════════════════════ -->
+        <mxCell id="AI_bg"
+          value="&lt;b style='color:#00D4AA;font-size:9px;letter-spacing:1px;'&gt;CHARGEFLOW AI ENGINE — LAYER 4&lt;/b&gt;"
+          style="rounded=1;whiteSpace=wrap;html=1;fillColor=#081F1A;strokeColor=#00D4AA;strokeWidth=3;arcSize=3;verticalAlign=top;"
+          vertex="1" parent="1">
+          <mxGeometry x="450" y="55" width="310" height="615" as="geometry" />
+        </mxCell>
+
+        <!-- AI — Demand Predictor -->
+        <mxCell id="AI_dem"
+          value="&lt;b style='color:#00D4AA;font-size:12px;'&gt;🔮 Demand Predictor&lt;/b&gt;&lt;br/&gt;&lt;font color='#8892A4' style='font-size:10px;'&gt;Random Forest (100 trees)&lt;/font&gt;&lt;br/&gt;&lt;font color='#E2E8F0' style='font-size:10px;'&gt;Features: hour, city,&lt;br/&gt;charger_type, slots, power,&lt;br/&gt;weekend, amenity_score&lt;/font&gt;&lt;br/&gt;&lt;font color='#00D4AA' style='font-size:10px;'&gt;→ Occupancy rate [0–1]&lt;br/&gt;→ 10th/90th percentile CI&lt;/font&gt;"
+          style="rounded=1;whiteSpace=wrap;html=1;fillColor=#0D2B25;strokeColor=#00D4AA;strokeWidth=2;arcSize=8;verticalAlign=middle;"
+          vertex="1" parent="1">
+          <mxGeometry x="465" y="95" width="280" height="155" as="geometry" />
+        </mxCell>
+
+        <!-- AI — Wait Estimator -->
+        <mxCell id="AI_wait"
+          value="&lt;b style='color:#00D4AA;font-size:12px;'&gt;⏱️ Wait Estimator&lt;/b&gt;&lt;br/&gt;&lt;font color='#8892A4' style='font-size:10px;'&gt;M/M/c Queueing Theory&lt;/font&gt;&lt;br/&gt;&lt;font color='#E2E8F0' style='font-size:10px;'&gt;Erlang-C: W_q = P(wait)/(cμ(1−ρ))&lt;br/&gt;λ=arrival rate, μ=service rate&lt;br/&gt;c=available charger slots&lt;/font&gt;&lt;br/&gt;&lt;font color='#00D4AA' style='font-size:10px;'&gt;+ GBR peak correction&lt;br/&gt;→ Est. wait (mins)&lt;/font&gt;"
+          style="rounded=1;whiteSpace=wrap;html=1;fillColor=#0D2B25;strokeColor=#00D4AA;strokeWidth=2;arcSize=8;verticalAlign=middle;"
+          vertex="1" parent="1">
+          <mxGeometry x="465" y="270" width="280" height="165" as="geometry" />
+        </mxCell>
+
+        <!-- AI — Recommender -->
+        <mxCell id="AI_rec"
+          value="&lt;b style='color:#00D4AA;font-size:12px;'&gt;🧭 Recommender&lt;/b&gt;&lt;br/&gt;&lt;font color='#8892A4' style='font-size:10px;'&gt;Weighted Multi-Criteria Score&lt;/font&gt;&lt;br/&gt;&lt;font color='#E2E8F0' style='font-size:10px;'&gt;0.35×proximity&lt;br/&gt;0.30×availability&lt;br/&gt;0.20×wait_score&lt;br/&gt;0.10×amenities + 0.05×cost&lt;/font&gt;&lt;br/&gt;&lt;font color='#00D4AA' style='font-size:10px;'&gt;→ Ranked Top-3 stations&lt;/font&gt;"
+          style="rounded=1;whiteSpace=wrap;html=1;fillColor=#0D2B25;strokeColor=#00D4AA;strokeWidth=2;arcSize=8;verticalAlign=middle;"
+          vertex="1" parent="1">
+          <mxGeometry x="465" y="455" width="280" height="185" as="geometry" />
+        </mxCell>
+
+        <!-- ═══════════════════════
+             COLUMN 4: OUTPUT
+        ═══════════════════════ -->
+        <mxCell id="OUT_bg"
+          value="&lt;b style='color:#7B61FF;font-size:9px;letter-spacing:1px;'&gt;OUTPUT&lt;/b&gt;"
+          style="rounded=1;whiteSpace=wrap;html=1;fillColor=#12123A;strokeColor=#7B61FF;strokeWidth=1.5;arcSize=3;verticalAlign=top;"
+          vertex="1" parent="1">
+          <mxGeometry x="810" y="55" width="170" height="615" as="geometry" />
+        </mxCell>
+
+        <mxCell id="OUT_forecast"
+          value="&lt;b style='color:#E2E8F0;font-size:11px;'&gt;📈 24-hr Forecast&lt;/b&gt;&lt;br/&gt;&lt;font color='#8892A4' style='font-size:9px;'&gt;Demand curve&lt;br/&gt;+ confidence band&lt;br/&gt;Operator dashboard&lt;/font&gt;"
+          style="rounded=1;whiteSpace=wrap;html=1;fillColor=#1A1A40;strokeColor=#7B61FF;strokeWidth=1.5;arcSize=8;"
+          vertex="1" parent="1">
+          <mxGeometry x="825" y="100" width="140" height="100" as="geometry" />
+        </mxCell>
+
+        <mxCell id="OUT_wait"
+          value="&lt;b style='color:#E2E8F0;font-size:11px;'&gt;⏱️ Wait Alert&lt;/b&gt;&lt;br/&gt;&lt;font color='#8892A4' style='font-size:9px;'&gt;Per-station wait time&lt;br/&gt;AI congestion alert&lt;br/&gt;Operator action&lt;/font&gt;"
+          style="rounded=1;whiteSpace=wrap;html=1;fillColor=#1A1A40;strokeColor=#7B61FF;strokeWidth=1.5;arcSize=8;"
+          vertex="1" parent="1">
+          <mxGeometry x="825" y="295" width="140" height="100" as="geometry" />
+        </mxCell>
+
+        <mxCell id="OUT_rec"
+          value="&lt;b style='color:#00D4AA;font-size:11px;'&gt;🏆 Top-3 Stations&lt;/b&gt;&lt;br/&gt;&lt;font color='#8892A4' style='font-size:9px;'&gt;Ranked by AI score&lt;br/&gt;With explanation&lt;br/&gt;Driver-facing card&lt;/font&gt;"
+          style="rounded=1;whiteSpace=wrap;html=1;fillColor=#0A2B22;strokeColor=#00D4AA;strokeWidth=2;arcSize=8;"
+          vertex="1" parent="1">
+          <mxGeometry x="825" y="490" width="140" height="100" as="geometry" />
+        </mxCell>
+
+        <!-- ═══════════════════════
+             COLUMN 5: UX LAYER
+        ═══════════════════════ -->
+        <mxCell id="UX_bg"
+          value="&lt;b style='color:#7B61FF;font-size:9px;letter-spacing:1px;'&gt;LAYER 5 · UX&lt;/b&gt;"
+          style="rounded=1;whiteSpace=wrap;html=1;fillColor=#0D0D14;strokeColor=#1E2733;strokeWidth=1;arcSize=3;verticalAlign=top;"
+          vertex="1" parent="1">
+          <mxGeometry x="1030" y="55" width="145" height="615" as="geometry" />
+        </mxCell>
+
+        <mxCell id="UX_dash"
+          value="&lt;b style='color:#E2E8F0;font-size:11px;'&gt;📊 Operator&lt;br/&gt;Dashboard&lt;/b&gt;&lt;br/&gt;&lt;font color='#8892A4' style='font-size:9px;'&gt;Streamlit app&lt;br/&gt;5 pages&lt;/font&gt;"
+          style="rounded=1;whiteSpace=wrap;html=1;fillColor=#0A2B22;strokeColor=#00D4AA;strokeWidth=2;arcSize=8;"
+          vertex="1" parent="1">
+          <mxGeometry x="1045" y="100" width="115" height="90" as="geometry" />
+        </mxCell>
+
+        <mxCell id="UX_alert"
+          value="&lt;b style='color:#FFB347;font-size:11px;'&gt;🚨 AI Alert&lt;/b&gt;&lt;br/&gt;&lt;font color='#8892A4' style='font-size:9px;'&gt;Critical stations&lt;br/&gt;auto-flagged&lt;/font&gt;"
+          style="rounded=1;whiteSpace=wrap;html=1;fillColor=#2B200A;strokeColor=#FFB347;strokeWidth=1.5;arcSize=8;"
+          vertex="1" parent="1">
+          <mxGeometry x="1045" y="290" width="115" height="80" as="geometry" />
+        </mxCell>
+
+        <mxCell id="UX_driver"
+          value="&lt;b style='color:#00D4AA;font-size:11px;'&gt;🚗 Driver&lt;br/&gt;Navigation&lt;/b&gt;&lt;br/&gt;&lt;font color='#8892A4' style='font-size:9px;'&gt;Route to best&lt;br/&gt;charger&lt;/font&gt;"
+          style="rounded=1;whiteSpace=wrap;html=1;fillColor=#0A2B22;strokeColor=#00D4AA;strokeWidth=1.5;arcSize=8;"
+          vertex="1" parent="1">
+          <mxGeometry x="1045" y="490" width="115" height="80" as="geometry" />
+        </mxCell>
+
+        <!-- ═══════════════════════
+             FLOW ARROWS
+        ═══════════════════════ -->
+
+        <!-- Input → Step 1 -->
+        <mxCell id="F1" value=""
+          style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#4B9EFF;strokeWidth=1.5;endArrow=block;endFill=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;"
+          edge="1" source="N_veh" target="S1_compat" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="F2" value=""
+          style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#4B9EFF;strokeWidth=1.5;endArrow=block;endFill=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;"
+          edge="1" source="N_gps" target="S1_dist" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Step 1 → AI Engine -->
+        <mxCell id="F3" value="&lt;font color='#4B9EFF' style='font-size:9px;'&gt;filtered candidates&lt;/font&gt;"
+          style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#4B9EFF;strokeWidth=1.5;endArrow=block;endFill=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;fontColor=#4B9EFF;fontSize=9;"
+          edge="1" source="S1_compat" target="AI_dem" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="F4" value="&lt;font color='#4B9EFF' style='font-size:9px;'&gt;distance_km [ ]&lt;/font&gt;"
+          style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#4B9EFF;strokeWidth=1.5;endArrow=block;endFill=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;fontColor=#4B9EFF;fontSize=9;"
+          edge="1" source="S1_dist" target="AI_wait" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- AI internal vertical flows -->
+        <mxCell id="F5" value="&lt;font color='#00D4AA' style='font-size:9px;'&gt;occupancy prediction&lt;/font&gt;"
+          style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#00D4AA;strokeWidth=1.5;endArrow=block;endFill=1;dashed=1;dashPattern=6 3;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;fontColor=#00D4AA;fontSize=9;"
+          edge="1" source="AI_dem" target="AI_wait" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="F6" value="&lt;font color='#00D4AA' style='font-size:9px;'&gt;wait_mins [ ]&lt;/font&gt;"
+          style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#00D4AA;strokeWidth=1.5;endArrow=block;endFill=1;dashed=1;dashPattern=6 3;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;fontColor=#00D4AA;fontSize=9;"
+          edge="1" source="AI_wait" target="AI_rec" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- AI → Output -->
+        <mxCell id="F7" value=""
+          style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#00D4AA;strokeWidth=2;endArrow=block;endFill=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;"
+          edge="1" source="AI_dem" target="OUT_forecast" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="F8" value=""
+          style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#00D4AA;strokeWidth=2;endArrow=block;endFill=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;"
+          edge="1" source="AI_wait" target="OUT_wait" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="F9" value="&lt;font color='#00D4AA' style='font-size:9px;'&gt;scored + ranked&lt;/font&gt;"
+          style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#00D4AA;strokeWidth=2.5;endArrow=block;endFill=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;fontColor=#00D4AA;fontSize=9;"
+          edge="1" source="AI_rec" target="OUT_rec" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Output → UX -->
+        <mxCell id="F10" value=""
+          style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#7B61FF;strokeWidth=1.5;endArrow=block;endFill=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;"
+          edge="1" source="OUT_forecast" target="UX_dash" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="F11" value=""
+          style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#FFB347;strokeWidth=1.5;endArrow=block;endFill=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;"
+          edge="1" source="OUT_wait" target="UX_alert" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="F12" value="&lt;font color='#00D4AA' style='font-size:9px;'&gt;&lt;2 seconds&lt;/font&gt;"
+          style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#00D4AA;strokeWidth=2;endArrow=block;endFill=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;fontColor=#00D4AA;fontSize=9;"
+          edge="1" source="OUT_rec" target="UX_driver" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Realtime status input to AI -->
+        <mxCell id="N_rt"
+          value="&lt;b style='color:#E2E8F0;font-size:11px;'&gt;📡 Realtime Status&lt;/b&gt;&lt;br/&gt;&lt;font color='#8892A4' style='font-size:9px;'&gt;OCPP telemetry&lt;br/&gt;occupied/available&lt;/font&gt;"
+          style="rounded=1;whiteSpace=wrap;html=1;fillColor=#1A1A40;strokeColor=#4B9EFF;strokeWidth=1.5;arcSize=8;"
+          vertex="1" parent="1">
+          <mxGeometry x="45" y="430" width="140" height="60" as="geometry" />
+        </mxCell>
+
+        <mxCell id="F_rt" value=""
+          style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#4B9EFF;strokeWidth=1.5;endArrow=block;endFill=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.7;entryDx=0;entryDy=0;"
+          edge="1" source="N_rt" target="AI_rec" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Total latency badge -->
+        <mxCell id="LAT"
+          value="&lt;font color='#00D4AA' style='font-size:10px;font-weight:bold;letter-spacing:1px;'&gt;⚡ End-to-End: &lt;2 seconds&lt;/font&gt;"
+          style="rounded=1;whiteSpace=wrap;html=1;fillColor=#0D2B25;strokeColor=#00D4AA;strokeWidth=1.5;arcSize=20;"
+          vertex="1" parent="1">
+          <mxGeometry x="400" y="700" width="400" height="30" as="geometry" />
+        </mxCell>
+
+        <!-- Legend row -->
+        <mxCell id="LG1"
+          value="&lt;font color='#00D4AA'&gt;──&gt;&lt;/font&gt; &lt;font color='#8892A4'&gt;AI data flow&lt;/font&gt;"
+          style="text;html=1;align=left;verticalAlign=middle;strokeColor=none;fillColor=none;fontSize=10;"
+          vertex="1" parent="1">
+          <mxGeometry x="50" y="760" width="170" height="20" as="geometry" />
+        </mxCell>
+
+        <mxCell id="LG2"
+          value="&lt;font color='#4B9EFF'&gt;──&gt;&lt;/font&gt; &lt;font color='#8892A4'&gt;Input processing&lt;/font&gt;"
+          style="text;html=1;align=left;verticalAlign=middle;strokeColor=none;fillColor=none;fontSize=10;"
+          vertex="1" parent="1">
+          <mxGeometry x="240" y="760" width="200" height="20" as="geometry" />
+        </mxCell>
+
+        <mxCell id="LG3"
+          value="&lt;font color='#00D4AA'&gt;- - -&gt;&lt;/font&gt; &lt;font color='#8892A4'&gt;Internal AI signals&lt;/font&gt;"
+          style="text;html=1;align=left;verticalAlign=middle;strokeColor=none;fillColor=none;fontSize=10;"
+          vertex="1" parent="1">
+          <mxGeometry x="460" y="760" width="200" height="20" as="geometry" />
+        </mxCell>
+
+        <mxCell id="LG4"
+          value="&lt;font color='#7B61FF'&gt;──&gt;&lt;/font&gt; &lt;font color='#8892A4'&gt;UX delivery&lt;/font&gt;"
+          style="text;html=1;align=left;verticalAlign=middle;strokeColor=none;fillColor=none;fontSize=10;"
+          vertex="1" parent="1">
+          <mxGeometry x="680" y="760" width="160" height="20" as="geometry" />
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

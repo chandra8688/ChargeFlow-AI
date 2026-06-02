@@ -1,0 +1,51 @@
+station_id,name,city,latitude,longitude,total_slots,charger_type,operator,avg_power_kw,installation_year,amenities,amenities_score,tariff_per_kwh,is_24x7,has_fast_charger,parking_fee_per_hr
+STA001,NTPC Vidyut — Bengaluru Station 1,Bengaluru,12.937692,77.719605,2,DC CCS2 (50 kW),NTPC Vidyut,50.0,2021,"Parking Shade, Cafe, Shopping Mall",3.8,20.26,False,True,50
+STA002,Tata Power EZ Charge — Bengaluru Station 2,Bengaluru,12.998264,77.499198,10,AC Type 2 (7.4 kW),Tata Power EZ Charge,7.4,2022,"Cafe, EV Service Centre",2.5,12.51,False,False,50
+STA003,Bolt.Earth — Bengaluru Station 3,Bengaluru,12.852163,77.696158,6,AC Type 2 (7.4 kW),Bolt.Earth,7.4,2020,"EV Service Centre, 24x7 Support, WiFi",3.8,13.4,True,False,30
+STA004,BPCL EV Station — Bengaluru Station 4,Bengaluru,13.027836,77.461635,4,AC Type 2 (7.4 kW),BPCL EV Station,7.4,2023,"Cafe, Restroom, Parking Shade, Security Camera",5.0,14.14,True,False,50
+STA005,Zeon Charging — Bengaluru Station 5,Bengaluru,13.061449,77.514818,2,AC Type 2 (7.4 kW),Zeon Charging,7.4,2022,"Security Camera, Restroom",2.5,12.56,False,False,50
+STA006,BPCL EV Station — Bengaluru Station 6,Bengaluru,12.886034,77.540307,8,DC CCS2 (150 kW),BPCL EV Station,150.0,2022,"Restroom, Shopping Mall",2.5,24.25,True,True,0
+STA007,Bolt.Earth — Bengaluru Station 7,Bengaluru,12.953207,77.536698,4,DC CCS2 (150 kW),Bolt.Earth,150.0,2023,"EV Service Centre, Shopping Mall, WiFi, Cafe",5.0,24.42,True,True,0
+STA008,Ather Grid — Bengaluru Station 8,Bengaluru,12.874166,77.536952,4,DC CCS2 (50 kW),Ather Grid,50.0,2022,"WiFi, Parking Shade, Security Camera",3.8,19.53,False,True,50
+STA009,Tata Power EZ Charge — Bengaluru Station 9,Bengaluru,12.959727,77.673693,8,AC Type 2 (7.4 kW),Tata Power EZ Charge,7.4,2023,"Restroom, Security Camera, WiFi",3.8,12.6,True,False,0
+STA010,BPCL EV Station — Bengaluru Station 10,Bengaluru,12.975447,77.620231,8,AC Type 2 (7.4 kW),BPCL EV Station,7.4,2021,"Security Camera, Shopping Mall, Parking Shade, Cafe, WiFi",6.2,12.29,True,False,50
+STA011,Bolt.Earth — Bengaluru Station 11,Bengaluru,13.000666,77.503221,10,AC Type 2 (22 kW),Bolt.Earth,22.0,2021,"Parking Shade, Cafe, 24x7 Support, EV Service Centre",5.0,14.53,True,False,0
+STA012,Bolt.Earth — Bengaluru Station 12,Bengaluru,13.09292,77.723742,4,AC Type 2 (7.4 kW),Bolt.Earth,7.4,2024,"Security Camera, Parking Shade",2.5,13.82,False,False,20
+STA013,ChargeZone — Bengaluru Station 13,Bengaluru,12.918793,77.483015,2,DC CHAdeMO (50 kW),ChargeZone,50.0,2021,"Shopping Mall, Restroom, WiFi, Parking Shade",5.0,20.17,True,True,0
+STA014,Ather Grid — Bengaluru Station 14,Bengaluru,12.955425,77.489773,6,DC CHAdeMO (50 kW),Ather Grid,50.0,2022,"24x7 Support, Security Camera",2.5,19.79,True,True,20
+STA015,Statiq — Delhi Station 1,Delhi,28.488059,77.335018,2,DC CCS2 (50 kW),Statiq,50.0,2020,"Restroom, EV Service Centre, WiFi, Shopping Mall, Cafe",6.2,19.32,True,True,50
+STA016,Zeon Charging — Delhi Station 2,Delhi,28.657825,77.151031,4,DC CHAdeMO (50 kW),Zeon Charging,50.0,2024,"WiFi, Cafe",2.5,19.84,False,True,0
+STA017,BPCL EV Station — Delhi Station 3,Delhi,28.626524,77.111976,10,AC Type 2 (7.4 kW),BPCL EV Station,7.4,2023,"24x7 Support, Parking Shade, Shopping Mall",3.8,14.14,True,False,50
+STA018,BPCL EV Station — Delhi Station 4,Delhi,28.68826,77.344309,6,AC Type 2 (22 kW),BPCL EV Station,22.0,2022,"Shopping Mall, Restroom",2.5,16.19,False,False,0
+STA019,BPCL EV Station — Delhi Station 5,Delhi,28.640359,77.338883,2,AC Type 2 (7.4 kW),BPCL EV Station,7.4,2023,"Restroom, Security Camera",2.5,12.38,True,False,50
+STA020,BPCL EV Station — Delhi Station 6,Delhi,28.531733,77.068988,12,AC Type 2 (7.4 kW),BPCL EV Station,7.4,2023,"EV Service Centre, Cafe, Parking Shade",3.8,12.85,True,False,0
+STA021,Statiq — Delhi Station 7,Delhi,28.583813,77.138605,10,AC Type 2 (7.4 kW),Statiq,7.4,2020,"Security Camera, Parking Shade, Shopping Mall, Restroom, 24x7 Support",6.2,13.86,True,False,20
+STA022,BPCL EV Station — Delhi Station 8,Delhi,28.575185,77.141556,4,DC CCS2 (150 kW),BPCL EV Station,150.0,2021,"Parking Shade, 24x7 Support, EV Service Centre",3.8,24.29,True,True,0
+STA023,ChargeZone — Delhi Station 9,Delhi,28.516852,77.302038,6,AC Type 2 (7.4 kW),ChargeZone,7.4,2021,"Cafe, Restroom, Shopping Mall, 24x7 Support, Security Camera",6.2,12.35,True,False,0
+STA024,BPCL EV Station — Delhi Station 10,Delhi,28.745491,77.292816,12,AC Type 2 (22 kW),BPCL EV Station,22.0,2022,"Restroom, Cafe, Parking Shade, EV Service Centre, Shopping Mall",6.2,14.8,True,False,20
+STA025,Ather Grid — Delhi Station 11,Delhi,28.480257,77.306122,12,AC Type 2 (22 kW),Ather Grid,22.0,2020,"24x7 Support, Cafe, Restroom",3.8,15.81,False,False,20
+STA026,Ather Grid — Delhi Station 12,Delhi,28.675794,77.292516,12,AC Type 2 (7.4 kW),Ather Grid,7.4,2021,"Cafe, Security Camera",2.5,12.35,True,False,50
+STA027,Bolt.Earth — Mumbai Station 1,Mumbai,19.037747,72.767848,6,AC Type 2 (7.4 kW),Bolt.Earth,7.4,2020,"Parking Shade, 24x7 Support",2.5,12.73,False,False,0
+STA028,NTPC Vidyut — Mumbai Station 2,Mumbai,19.109324,72.829341,8,AC Type 2 (22 kW),NTPC Vidyut,22.0,2023,"Shopping Mall, Cafe, WiFi",3.8,13.13,True,False,20
+STA029,Tata Power EZ Charge — Mumbai Station 3,Mumbai,19.024914,72.827707,4,AC Type 2 (22 kW),Tata Power EZ Charge,22.0,2021,"Cafe, Restroom, 24x7 Support, EV Service Centre, WiFi",6.2,14.46,True,False,0
+STA030,NTPC Vidyut — Mumbai Station 4,Mumbai,19.113178,72.988433,8,DC CCS2 (150 kW),NTPC Vidyut,150.0,2022,"EV Service Centre, Security Camera, 24x7 Support",3.8,21.94,False,True,50
+STA031,ChargeZone — Mumbai Station 5,Mumbai,18.973188,72.938683,6,AC Type 2 (7.4 kW),ChargeZone,7.4,2021,"24x7 Support, Restroom, Security Camera",3.8,12.52,True,False,20
+STA032,BPCL EV Station — Mumbai Station 6,Mumbai,19.092561,72.95519,8,DC CCS2 (50 kW),BPCL EV Station,50.0,2023,"EV Service Centre, WiFi, Restroom, Shopping Mall",5.0,17.99,True,True,0
+STA033,NTPC Vidyut — Mumbai Station 7,Mumbai,19.082144,72.856979,4,AC Type 2 (7.4 kW),NTPC Vidyut,7.4,2023,"EV Service Centre, 24x7 Support, Shopping Mall",3.8,11.05,False,False,0
+STA034,Tata Power EZ Charge — Mumbai Station 8,Mumbai,18.970025,72.743701,4,AC Type 2 (7.4 kW),Tata Power EZ Charge,7.4,2022,"WiFi, Parking Shade, Cafe, Restroom",5.0,12.27,True,False,0
+STA035,BPCL EV Station — Mumbai Station 9,Mumbai,19.025826,72.880151,6,DC CCS2 (150 kW),BPCL EV Station,150.0,2023,"Shopping Mall, Security Camera",2.5,22.82,False,True,0
+STA036,Ather Grid — Mumbai Station 10,Mumbai,19.008241,72.852072,6,DC CHAdeMO (50 kW),Ather Grid,50.0,2023,"Security Camera, Restroom, Cafe",3.8,18.51,True,True,0
+STA037,Bolt.Earth — Pune Station 1,Pune,18.447102,73.736126,4,AC Type 2 (7.4 kW),Bolt.Earth,7.4,2022,"EV Service Centre, Cafe",2.5,11.58,True,False,20
+STA038,BPCL EV Station — Pune Station 2,Pune,18.428838,73.979178,6,AC Type 2 (7.4 kW),BPCL EV Station,7.4,2023,"Parking Shade, EV Service Centre",2.5,12.62,True,False,0
+STA039,Statiq — Pune Station 3,Pune,18.556455,73.962578,6,DC CHAdeMO (50 kW),Statiq,50.0,2022,"Shopping Mall, Restroom, Security Camera, WiFi, Cafe",6.2,18.61,True,True,0
+STA040,Statiq — Pune Station 4,Pune,18.435689,73.968592,8,AC Type 2 (22 kW),Statiq,22.0,2020,"Cafe, Parking Shade, 24x7 Support, EV Service Centre, WiFi",6.2,14.08,False,False,30
+STA041,Statiq — Pune Station 5,Pune,18.603492,73.969599,6,AC Type 2 (7.4 kW),Statiq,7.4,2021,"Cafe, Shopping Mall, WiFi, 24x7 Support, Security Camera",6.2,11.64,False,False,20
+STA042,Statiq — Pune Station 6,Pune,18.415009,73.779153,10,AC Type 2 (22 kW),Statiq,22.0,2023,"24x7 Support, EV Service Centre, Cafe, Shopping Mall, Parking Shade",6.2,13.85,False,False,0
+STA043,Bolt.Earth — Pune Station 7,Pune,18.60635,73.95952,6,DC CCS2 (50 kW),Bolt.Earth,50.0,2022,"24x7 Support, WiFi",2.5,17.01,True,True,50
+STA044,Zeon Charging — Pune Station 8,Pune,18.523305,73.83316,8,DC CCS2 (50 kW),Zeon Charging,50.0,2021,"EV Service Centre, Shopping Mall, Cafe, 24x7 Support, Parking Shade",6.2,17.44,False,True,0
+STA045,ChargeZone — Hyderabad Station 1,Hyderabad,17.282261,78.440711,8,AC Type 2 (7.4 kW),ChargeZone,7.4,2021,"24x7 Support, Cafe, Security Camera",3.8,12.89,True,False,0
+STA046,ChargeZone — Hyderabad Station 2,Hyderabad,17.337217,78.492022,12,AC Type 2 (7.4 kW),ChargeZone,7.4,2024,"Security Camera, Shopping Mall, 24x7 Support, Cafe, Parking Shade",6.2,12.41,True,False,0
+STA047,ChargeZone — Hyderabad Station 3,Hyderabad,17.348143,78.620312,2,AC Type 2 (7.4 kW),ChargeZone,7.4,2020,"Parking Shade, Cafe, Shopping Mall, 24x7 Support, EV Service Centre",6.2,12.92,False,False,0
+STA048,Zeon Charging — Hyderabad Station 4,Hyderabad,17.317914,78.485921,4,DC CCS2 (150 kW),Zeon Charging,150.0,2023,"EV Service Centre, Shopping Mall, 24x7 Support",3.8,21.6,True,True,50
+STA049,Zeon Charging — Hyderabad Station 5,Hyderabad,17.326849,78.355543,10,DC CCS2 (150 kW),Zeon Charging,150.0,2022,"EV Service Centre, Parking Shade, WiFi",3.8,22.22,False,True,20
+STA050,BPCL EV Station — Hyderabad Station 6,Hyderabad,17.385724,78.359675,12,DC CCS2 (50 kW),BPCL EV Station,50.0,2022,"EV Service Centre, Restroom, Shopping Mall, WiFi",5.0,17.56,True,True,20

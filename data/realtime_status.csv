@@ -1,0 +1,51 @@
+station_id,name,city,operator,charger_type,total_slots,available_slots,occupied_slots,queue_length,current_load_kw,estimated_wait_mins,utilization_pct,status,latitude,longitude,last_updated
+STA001,NTPC Vidyut — Bengaluru Station 1,Bengaluru,NTPC Vidyut,DC CCS2 (50 kW),2,0,2,0,91.6,0.0,100.0,CRITICAL,12.937692,77.719605,2026-05-26 20:19:03
+STA002,Tata Power EZ Charge — Bengaluru Station 2,Bengaluru,Tata Power EZ Charge,AC Type 2 (7.4 kW),10,5,5,1,31.1,0.0,50.0,MODERATE,12.998264,77.499198,2026-05-26 20:19:03
+STA003,Bolt.Earth — Bengaluru Station 3,Bengaluru,Bolt.Earth,AC Type 2 (7.4 kW),6,3,3,0,18.6,0.0,50.0,MODERATE,12.852163,77.696158,2026-05-26 20:19:03
+STA004,BPCL EV Station — Bengaluru Station 4,Bengaluru,BPCL EV Station,AC Type 2 (7.4 kW),4,1,3,0,21.0,0.0,75.0,BUSY,13.027836,77.461635,2026-05-26 20:19:03
+STA005,Zeon Charging — Bengaluru Station 5,Bengaluru,Zeon Charging,AC Type 2 (7.4 kW),2,0,2,2,13.2,178.4,100.0,CRITICAL,13.061449,77.514818,2026-05-26 20:19:03
+STA006,BPCL EV Station — Bengaluru Station 6,Bengaluru,BPCL EV Station,DC CCS2 (150 kW),8,2,6,2,880.8,0.0,75.0,BUSY,12.886034,77.540307,2026-05-26 20:19:03
+STA007,Bolt.Earth — Bengaluru Station 7,Bengaluru,Bolt.Earth,DC CCS2 (150 kW),4,0,4,1,515.1,7.5,100.0,CRITICAL,12.953207,77.536698,2026-05-26 20:19:03
+STA008,Ather Grid — Bengaluru Station 8,Bengaluru,Ather Grid,DC CCS2 (50 kW),4,0,4,1,189.1,7.5,100.0,CRITICAL,12.874166,77.536952,2026-05-26 20:19:03
+STA009,Tata Power EZ Charge — Bengaluru Station 9,Bengaluru,Tata Power EZ Charge,AC Type 2 (7.4 kW),8,3,5,3,36.9,0.0,62.5,MODERATE,12.959727,77.673693,2026-05-26 20:19:03
+STA010,BPCL EV Station — Bengaluru Station 10,Bengaluru,BPCL EV Station,AC Type 2 (7.4 kW),8,1,7,0,47.3,0.0,87.5,BUSY,12.975447,77.620231,2026-05-26 20:19:03
+STA011,Bolt.Earth — Bengaluru Station 11,Bengaluru,Bolt.Earth,AC Type 2 (22 kW),10,1,9,6,174.7,0.0,90.0,CRITICAL,13.000666,77.503221,2026-05-26 20:19:03
+STA012,Bolt.Earth — Bengaluru Station 12,Bengaluru,Bolt.Earth,AC Type 2 (7.4 kW),4,2,2,0,14.8,0.0,50.0,MODERATE,13.09292,77.723742,2026-05-26 20:19:03
+STA013,ChargeZone — Bengaluru Station 13,Bengaluru,ChargeZone,DC CHAdeMO (50 kW),2,0,2,0,85.2,0.0,100.0,CRITICAL,12.918793,77.483015,2026-05-26 20:19:03
+STA014,Ather Grid — Bengaluru Station 14,Bengaluru,Ather Grid,DC CHAdeMO (50 kW),6,1,5,1,223.2,0.0,83.3,BUSY,12.955425,77.489773,2026-05-26 20:19:03
+STA015,Statiq — Delhi Station 1,Delhi,Statiq,DC CCS2 (50 kW),2,0,2,1,97.5,15.0,100.0,CRITICAL,28.488059,77.335018,2026-05-26 20:19:03
+STA016,Zeon Charging — Delhi Station 2,Delhi,Zeon Charging,DC CHAdeMO (50 kW),4,0,4,2,167.8,15.0,100.0,CRITICAL,28.657825,77.151031,2026-05-26 20:19:03
+STA017,BPCL EV Station — Delhi Station 3,Delhi,BPCL EV Station,AC Type 2 (7.4 kW),10,1,9,1,65.8,0.0,90.0,CRITICAL,28.626524,77.111976,2026-05-26 20:19:03
+STA018,BPCL EV Station — Delhi Station 4,Delhi,BPCL EV Station,AC Type 2 (22 kW),6,0,6,3,120.8,30.0,100.0,CRITICAL,28.68826,77.344309,2026-05-26 20:19:03
+STA019,BPCL EV Station — Delhi Station 5,Delhi,BPCL EV Station,AC Type 2 (7.4 kW),2,0,2,0,14.3,0.0,100.0,CRITICAL,28.640359,77.338883,2026-05-26 20:19:03
+STA020,BPCL EV Station — Delhi Station 6,Delhi,BPCL EV Station,AC Type 2 (7.4 kW),12,5,7,2,43.3,0.0,58.3,MODERATE,28.531733,77.068988,2026-05-26 20:19:03
+STA021,Statiq — Delhi Station 7,Delhi,Statiq,AC Type 2 (7.4 kW),10,5,5,2,31.8,0.0,50.0,MODERATE,28.583813,77.138605,2026-05-26 20:19:03
+STA022,BPCL EV Station — Delhi Station 8,Delhi,BPCL EV Station,DC CCS2 (150 kW),4,1,3,0,374.7,0.0,75.0,BUSY,28.575185,77.141556,2026-05-26 20:19:03
+STA023,ChargeZone — Delhi Station 9,Delhi,ChargeZone,AC Type 2 (7.4 kW),6,1,5,2,30.3,0.0,83.3,BUSY,28.516852,77.302038,2026-05-26 20:19:03
+STA024,BPCL EV Station — Delhi Station 10,Delhi,BPCL EV Station,AC Type 2 (22 kW),12,3,9,2,177.2,0.0,75.0,BUSY,28.745491,77.292816,2026-05-26 20:19:03
+STA025,Ather Grid — Delhi Station 11,Delhi,Ather Grid,AC Type 2 (22 kW),12,2,10,2,201.4,0.0,83.3,BUSY,28.480257,77.306122,2026-05-26 20:19:03
+STA026,Ather Grid — Delhi Station 12,Delhi,Ather Grid,AC Type 2 (7.4 kW),12,3,9,4,62.5,0.0,75.0,BUSY,28.675794,77.292516,2026-05-26 20:19:03
+STA027,Bolt.Earth — Mumbai Station 1,Mumbai,Bolt.Earth,AC Type 2 (7.4 kW),6,3,3,0,18.4,0.0,50.0,MODERATE,19.037747,72.767848,2026-05-26 20:19:03
+STA028,NTPC Vidyut — Mumbai Station 2,Mumbai,NTPC Vidyut,AC Type 2 (22 kW),8,5,3,1,53.8,0.0,37.5,AVAILABLE,19.109324,72.829341,2026-05-26 20:19:03
+STA029,Tata Power EZ Charge — Mumbai Station 3,Mumbai,Tata Power EZ Charge,AC Type 2 (22 kW),4,2,2,1,40.0,0.0,50.0,MODERATE,19.024914,72.827707,2026-05-26 20:19:03
+STA030,NTPC Vidyut — Mumbai Station 4,Mumbai,NTPC Vidyut,DC CCS2 (150 kW),8,3,5,3,603.5,0.0,62.5,MODERATE,19.113178,72.988433,2026-05-26 20:19:03
+STA031,ChargeZone — Mumbai Station 5,Mumbai,ChargeZone,AC Type 2 (7.4 kW),6,3,3,1,20.6,0.0,50.0,MODERATE,18.973188,72.938683,2026-05-26 20:19:03
+STA032,BPCL EV Station — Mumbai Station 6,Mumbai,BPCL EV Station,DC CCS2 (50 kW),8,3,5,2,222.6,0.0,62.5,MODERATE,19.092561,72.95519,2026-05-26 20:19:03
+STA033,NTPC Vidyut — Mumbai Station 7,Mumbai,NTPC Vidyut,AC Type 2 (7.4 kW),4,2,2,1,12.2,0.0,50.0,MODERATE,19.082144,72.856979,2026-05-26 20:19:03
+STA034,Tata Power EZ Charge — Mumbai Station 8,Mumbai,Tata Power EZ Charge,AC Type 2 (7.4 kW),4,2,2,1,12.5,0.0,50.0,MODERATE,18.970025,72.743701,2026-05-26 20:19:03
+STA035,BPCL EV Station — Mumbai Station 9,Mumbai,BPCL EV Station,DC CCS2 (150 kW),6,2,4,3,598.3,0.0,66.7,MODERATE,19.025826,72.880151,2026-05-26 20:19:03
+STA036,Ather Grid — Mumbai Station 10,Mumbai,Ather Grid,DC CHAdeMO (50 kW),6,2,4,4,191.5,0.0,66.7,MODERATE,19.008241,72.852072,2026-05-26 20:19:03
+STA037,Bolt.Earth — Pune Station 1,Pune,Bolt.Earth,AC Type 2 (7.4 kW),4,1,3,0,20.2,0.0,75.0,BUSY,18.447102,73.736126,2026-05-26 20:19:03
+STA038,BPCL EV Station — Pune Station 2,Pune,BPCL EV Station,AC Type 2 (7.4 kW),6,2,4,0,29.2,0.0,66.7,MODERATE,18.428838,73.979178,2026-05-26 20:19:03
+STA039,Statiq — Pune Station 3,Pune,Statiq,DC CHAdeMO (50 kW),6,2,4,1,191.1,0.0,66.7,MODERATE,18.556455,73.962578,2026-05-26 20:19:03
+STA040,Statiq — Pune Station 4,Pune,Statiq,AC Type 2 (22 kW),8,5,3,0,53.8,0.0,37.5,AVAILABLE,18.435689,73.968592,2026-05-26 20:19:03
+STA041,Statiq — Pune Station 5,Pune,Statiq,AC Type 2 (7.4 kW),6,3,3,1,21.2,0.0,50.0,MODERATE,18.603492,73.969599,2026-05-26 20:19:03
+STA042,Statiq — Pune Station 6,Pune,Statiq,AC Type 2 (22 kW),10,3,7,4,125.3,0.0,70.0,BUSY,18.415009,73.779153,2026-05-26 20:19:03
+STA043,Bolt.Earth — Pune Station 7,Pune,Bolt.Earth,DC CCS2 (50 kW),6,3,3,2,149.8,0.0,50.0,MODERATE,18.60635,73.95952,2026-05-26 20:19:03
+STA044,Zeon Charging — Pune Station 8,Pune,Zeon Charging,DC CCS2 (50 kW),8,2,6,2,280.1,0.0,75.0,BUSY,18.523305,73.83316,2026-05-26 20:19:03
+STA045,ChargeZone — Hyderabad Station 1,Hyderabad,ChargeZone,AC Type 2 (7.4 kW),8,2,6,2,41.2,0.0,75.0,BUSY,17.282261,78.440711,2026-05-26 20:19:03
+STA046,ChargeZone — Hyderabad Station 2,Hyderabad,ChargeZone,AC Type 2 (7.4 kW),12,4,8,1,48.5,0.0,66.7,MODERATE,17.337217,78.492022,2026-05-26 20:19:03
+STA047,ChargeZone — Hyderabad Station 3,Hyderabad,ChargeZone,AC Type 2 (7.4 kW),2,1,1,0,7.3,0.0,50.0,MODERATE,17.348143,78.620312,2026-05-26 20:19:03
+STA048,Zeon Charging — Hyderabad Station 4,Hyderabad,Zeon Charging,DC CCS2 (150 kW),4,1,3,1,386.6,0.0,75.0,BUSY,17.317914,78.485921,2026-05-26 20:19:03
+STA049,Zeon Charging — Hyderabad Station 5,Hyderabad,Zeon Charging,DC CCS2 (150 kW),10,2,8,3,971.7,0.0,80.0,BUSY,17.326849,78.355543,2026-05-26 20:19:03
+STA050,BPCL EV Station — Hyderabad Station 6,Hyderabad,BPCL EV Station,DC CCS2 (50 kW),12,6,6,2,244.3,0.0,50.0,MODERATE,17.385724,78.359675,2026-05-26 20:19:03
