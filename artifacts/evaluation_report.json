@@ -1,0 +1,231 @@
+{
+  "phase": "Phase 2 \u2014 Production ML Demand Forecasting",
+  "target_col": "occupancy_rate",
+  "feature_cols": [
+    "hour",
+    "day_of_week",
+    "month",
+    "hour_sin",
+    "hour_cos",
+    "day_sin",
+    "day_cos",
+    "is_weekend",
+    "is_holiday",
+    "temperature_c",
+    "lag_1h",
+    "lag_24h",
+    "lag_168h",
+    "rolling_mean_6h",
+    "rolling_mean_24h",
+    "rolling_std_24h"
+  ],
+  "dataset": {
+    "raw_rows": 216000,
+    "featured_rows": 207600,
+    "train_rows": 145300,
+    "val_rows": 31150,
+    "test_rows": 31150,
+    "train_dates": {
+      "min": "2025-01-08 00:00:00",
+      "max": "2025-05-09 01:00:00"
+    },
+    "val_dates": {
+      "min": "2025-05-09 02:00:00",
+      "max": "2025-06-04 00:00:00"
+    },
+    "test_dates": {
+      "min": "2025-06-04 01:00:00",
+      "max": "2025-06-29 23:00:00"
+    }
+  },
+  "baseline": {
+    "name": "Seasonal Lag-24h Baseline",
+    "rule": "prediction(t) = occupancy_rate(t-24h)",
+    "test_metrics": {
+      "MAE": 0.18494,
+      "RMSE": 0.26947,
+      "R2": 0.4058
+    }
+  },
+  "random_forest": {
+    "n_estimators": 200,
+    "max_depth": 16,
+    "min_samples_leaf": 10,
+    "random_state": 42,
+    "train_metrics": {
+      "MAE": 0.12531,
+      "RMSE": 0.16597,
+      "R2": 0.7734
+    },
+    "val_metrics": {
+      "MAE": 0.14055,
+      "RMSE": 0.18598,
+      "R2": 0.7209
+    },
+    "test_metrics": {
+      "MAE": 0.13985,
+      "RMSE": 0.18536,
+      "R2": 0.7189
+    }
+  },
+  "improvement_over_baseline_pct": {
+    "MAE": 24.38,
+    "RMSE": 31.21
+  },
+  "error_analysis": {
+    "by_city": [
+      {
+        "city": "Bengaluru",
+        "MAE": 0.15027,
+        "RMSE": 0.19995,
+        "R2": 0.7074
+      },
+      {
+        "city": "Delhi",
+        "MAE": 0.13404,
+        "RMSE": 0.18038,
+        "R2": 0.7355
+      },
+      {
+        "city": "Hyderabad",
+        "MAE": 0.14108,
+        "RMSE": 0.1933,
+        "R2": 0.6649
+      },
+      {
+        "city": "Mumbai",
+        "MAE": 0.13675,
+        "RMSE": 0.17584,
+        "R2": 0.7474
+      },
+      {
+        "city": "Pune",
+        "MAE": 0.13329,
+        "RMSE": 0.17114,
+        "R2": 0.7021
+      }
+    ],
+    "by_charger_type": [
+      {
+        "charger_type": "AC Type 2 (22 kW)",
+        "MAE": 0.11578,
+        "RMSE": 0.14875,
+        "R2": 0.802
+      },
+      {
+        "charger_type": "AC Type 2 (7.4 kW)",
+        "MAE": 0.14635,
+        "RMSE": 0.19385,
+        "R2": 0.6607
+      },
+      {
+        "charger_type": "DC CCS2 (150 kW)",
+        "MAE": 0.12244,
+        "RMSE": 0.16087,
+        "R2": 0.816
+      },
+      {
+        "charger_type": "DC CCS2 (50 kW)",
+        "MAE": 0.145,
+        "RMSE": 0.19453,
+        "R2": 0.7326
+      },
+      {
+        "charger_type": "DC CHAdeMO (50 kW)",
+        "MAE": 0.16565,
+        "RMSE": 0.21472,
+        "R2": 0.5825
+      }
+    ],
+    "by_hour_worst5": [
+      {
+        "hour": 22,
+        "MAE": 0.17567,
+        "RMSE": 0.22427,
+        "R2": 0.0577
+      },
+      {
+        "hour": 10,
+        "MAE": 0.17434,
+        "RMSE": 0.22512,
+        "R2": 0.1946
+      },
+      {
+        "hour": 15,
+        "MAE": 0.17252,
+        "RMSE": 0.22296,
+        "R2": 0.2101
+      },
+      {
+        "hour": 7,
+        "MAE": 0.17143,
+        "RMSE": 0.21888,
+        "R2": 0.3481
+      },
+      {
+        "hour": 21,
+        "MAE": 0.17078,
+        "RMSE": 0.21652,
+        "R2": 0.2282
+      }
+    ],
+    "by_hour_best5": [
+      {
+        "hour": 19,
+        "MAE": 0.10337,
+        "RMSE": 0.13955,
+        "R2": 0.2617
+      },
+      {
+        "hour": 1,
+        "MAE": 0.09554,
+        "RMSE": 0.12534,
+        "R2": -0.0088
+      },
+      {
+        "hour": 2,
+        "MAE": 0.08623,
+        "RMSE": 0.11572,
+        "R2": -0.0005
+      },
+      {
+        "hour": 4,
+        "MAE": 0.07793,
+        "RMSE": 0.10334,
+        "R2": -0.0081
+      },
+      {
+        "hour": 3,
+        "MAE": 0.07627,
+        "RMSE": 0.10174,
+        "R2": -0.0047
+      }
+    ]
+  },
+  "feature_importance_top5": [
+    {
+      "feature": "hour",
+      "importance": 0.66902
+    },
+    {
+      "feature": "lag_168h",
+      "importance": 0.11002
+    },
+    {
+      "feature": "hour_cos",
+      "importance": 0.04013
+    },
+    {
+      "feature": "hour_sin",
+      "importance": 0.02846
+    },
+    {
+      "feature": "rolling_mean_24h",
+      "importance": 0.02673
+    }
+  ],
+  "model_paths": {
+    "model_path": "C:\\Users\\Chandra Shekar\\Downloads\\chargeflow_aiV2\\ChargeflowAi_V2\\artifacts\\models\\demand_forecaster.joblib",
+    "metadata_path": "C:\\Users\\Chandra Shekar\\Downloads\\chargeflow_aiV2\\ChargeflowAi_V2\\artifacts\\models\\demand_forecaster_metadata.json"
+  }
+}

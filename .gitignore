@@ -1,7 +1,35 @@
+# Python bytecode & cache
 __pycache__/
-*.pyc
+*.py[cod]
+*$py.class
+.pytest_cache/
+
+# Virtual environments
 .venv/
 env/
+venv/
+ENV/
+
+# Environment variables & secrets (NEVER commit real credentials)
+.env
+.env.*
+!.env.example
+.streamlit/secrets.toml
+
+# Local runtime & inference logs
+logs/*.jsonl
+logs/*.log
+api_pid.txt
+
+# IDE & OS temporary files
 .vscode/
 .idea/
+*.swp
+*.swo
 .DS_Store
+Thumbs.db
+
+# Build & packaging artifacts
+*.egg-info/
+build/
+dist/

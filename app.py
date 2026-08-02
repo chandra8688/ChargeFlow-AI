@@ -165,6 +165,54 @@ def style_fig(fig, height=320, title=None, show_xy=True):
 
 
 # ═══════════════════════════════════════════════════════════════════════════════
+# MODULE-LEVEL SERVICE LOADERS  (cached across all pages and page functions)
+# These must live at module scope so _load_decision_service() can reference them.
+# ═══════════════════════════════════════════════════════════════════════════════
+
+@st.cache_resource(show_spinner=False)
+def _load_feature_service():
+    """Load FeatureService once per server process (not per re-run)."""
+    try:
+        from src.services.feature_service import FeatureService
+        return FeatureService()
+    except Exception as exc:
+        return exc  # return the exception so the caller can display it
+
+
+@st.cache_resource(show_spinner=False)
+def _load_forecast_service():
+    """Load ForecastService once per server process."""
+    try:
+        from src.services.forecast_service import ForecastService
+        return ForecastService(eager_load=True)
+    except Exception as exc:
+        return exc
+
+
+@st.cache_resource(show_spinner=False)
+def _load_explainability_service():
+    """Load ExplainabilityService once — wraps the already-loaded ForecastService."""
+    try:
+        from src.services.explainability_service import ExplainabilityService
+        forecast_svc = _load_forecast_service()
+        if isinstance(forecast_svc, Exception):
+            return None
+        return ExplainabilityService(forecast_svc)
+    except Exception:
+        return None
+
+
+@st.cache_resource(show_spinner=False)
+def _load_inference_logger():
+    """Load InferenceLogger once per server process."""
+    try:
+        from src.services.inference_logger import InferenceLogger
+        return InferenceLogger()
+    except Exception:
+        return None
+
+
+# ═══════════════════════════════════════════════════════════════════════════════
 # PAGE 1 — OVERVIEW DASHBOARD
 # ═══════════════════════════════════════════════════════════════════════════════
 
@@ -598,24 +646,19 @@ def page_demand_predictor(sessions_df, stations_df):
         <div class="kpi-value">{len(df):,}</div>
         <div class="kpi-delta">historical sessions</div></div>""", unsafe_allow_html=True)
 
-    with st.expander("🧠 AI Model Architecture Details", expanded=False):
+    with st.expander("🧠 Phase 2 Model — Architecture Details (Statistical Forecast)", expanded=False):
         st.markdown(f"""
-**Algorithm:** Random Forest Regressor (scikit-learn, 100 estimators, max_depth=8)
+*Note: the chart above is derived from historical session statistics (sessions per hour, normalised). It is NOT output from the trained ML model — it shows aggregate demand patterns from the dataset.*
 
-**Input Features (8):**
-`hour` · `day_of_week` · `is_weekend` · `city` · `charger_type` · `total_slots` · `avg_power_kw` · `amenities_score`
-
-**Target:** Occupancy rate (0.0 – 1.0)
-
-**Confidence Band:** 10th–90th percentile across all decision trees in the ensemble
-
-**Training Data:** 10,000 historical sessions across 5 Indian cities (Jan–Mar 2025, synthetic)
-
-**Why Random Forest?**
-- Handles mixed feature types without scaling
-- Native uncertainty quantification via tree variance
-- Feature importance for full explainability
-- Robust against noisy data — no gradient overfitting risk
+**Phase 2 Trained Model (used in the Real-Time ML Prediction section below):**
+- **Algorithm:** Random Forest Regressor (`scikit-learn`)
+- **Estimators:** 200 trees
+- **Max depth:** 16
+- **Min samples leaf:** 2
+- **Input Features (16):** `hour` · `day_of_week` · `month` · `hour_sin` · `hour_cos` · `day_sin` · `day_cos` · `is_weekend` · `is_holiday` · `temperature_c` · `lag_1h` · `lag_24h` · `lag_168h` · `rolling_mean_6h` · `rolling_mean_24h` · `rolling_std_24h`
+- **Target:** `occupancy_rate` ∈ [0.0, 1.0]
+- **Training data:** 180 days × 50 stations × 24 hours = 216,000 hourly observations
+- **Test set MAE:** ~0.14 · **RMSE:** ~0.19 · **R²:** ~0.72
 
 **Key Insight for {sel_city}:** Evening peak (6–9 PM) accounts for
 **{eve_share:.0f}%** of all daily sessions — 3× higher than morning commute.
@@ -623,169 +666,473 @@ Operators should pre-position staff and run dynamic pricing from 17:00 onward.
         """)
 
 
+    # ── Section: Real-Time ML Prediction (Phase 2 Model) ────────────────────
+    st.markdown('<div class="section-divider"></div>', unsafe_allow_html=True)
+    st.markdown(
+        '<div class="section-header">🤖 Real-Time ML Prediction — Phase 2 Trained Model</div>',
+        unsafe_allow_html=True,
+    )
+    st.markdown(
+        '<div style="font-size:13px;color:#8892A4;margin-bottom:16px;">'  # noqa
+        'Provide raw station inputs. The pipeline automatically retrieves historical '
+        'occupancy, engineers all 16 ML features, and returns a prediction from the '
+        'saved RandomForest artifact — no pre-computed features required.'
+        '</div>',
+        unsafe_allow_html=True,
+    )
+
+    # Service loaders are defined at module scope — call them directly here.
+    feat_svc     = _load_feature_service()
+    forecast_svc = _load_forecast_service()
+    expl_svc     = _load_explainability_service()
+    inf_logger   = _load_inference_logger()
+
+    svc_ok = (
+        not isinstance(feat_svc, Exception)
+        and not isinstance(forecast_svc, Exception)
+    )
+
+    if not svc_ok:
+        err = feat_svc if isinstance(feat_svc, Exception) else forecast_svc
+        st.error(
+            f"🚨 ML services could not be loaded: {err}. "
+            "Run 'python -m src.train_evaluate' to generate model artifacts."
+        )
+    else:
+        valid_stations = feat_svc.list_stations()
+
+        ml_c1, ml_c2, ml_c3 = st.columns(3)
+        with ml_c1:
+            ml_station = st.selectbox(
+                "📍 Station ID",
+                valid_stations,
+                index=valid_stations.index("STA001") if "STA001" in valid_stations else 0,
+                key="ml_station",
+            )
+        with ml_c2:
+            import datetime as _dt
+            ml_date = st.date_input(
+                "📅 Prediction Date",
+                value=_dt.date(2025, 6, 15),
+                min_value=_dt.date(2025, 1, 9),   # earliest date with full lag_168h window
+                max_value=_dt.date(2025, 6, 30),  # latest date with any available history
+                key="ml_date",
+            )
+        with ml_c3:
+            ml_hour = st.slider("⏰ Prediction Hour", 0, 23, 19, key="ml_hour",
+                                format="%02d:00")
+
+        ml_c4, ml_c5 = st.columns(2)
+        with ml_c4:
+            ml_temp = st.slider(
+                "🌡️ Temperature (°C)", -5.0, 50.0, 28.0, 0.5, key="ml_temp"
+            )
+        with ml_c5:
+            ml_holiday = st.checkbox("🎊 Public Holiday", value=False, key="ml_holiday")
+
+        predict_btn = st.button(
+            "⚡ Predict Occupancy (Real ML Model)",
+            use_container_width=True,
+            key="ml_predict_btn",
+        )
+
+        if predict_btn:
+            prediction_time = f"{ml_date} {ml_hour:02d}:00:00"
+            with st.spinner("Running feature engineering + model inference ..."):
+                try:
+                    from src.services.feature_service import (
+                        InsufficientHistoryError, UnknownStationError
+                    )
+                    feature_dict = feat_svc.build_features(
+                        station_id=ml_station,
+                        prediction_time=prediction_time,
+                        temperature_c=ml_temp,
+                        is_holiday=ml_holiday,
+                    )
+                    result  = forecast_svc.predict_single(feature_dict)
+                    context = feat_svc.build_context(feature_dict)
+
+                    pred_pct = result["predicted_occupancy"] * 100
+                    status   = result["status"]
+                    s_color  = STATUS_COLORS.get(status, "#E2E8F0")
+
+                    st.markdown(
+                        f'<div class="kpi-card" style="margin:12px 0;border-left:4px solid {s_color};">'  # noqa
+                        f'<div class="kpi-label">{ml_station} — {prediction_time}</div>'
+                        f'<div class="kpi-value" style="color:{s_color};font-size:42px;">'
+                        f'{pred_pct:.1f}%</div>'
+                        f'<div class="kpi-delta">Predicted occupancy — '
+                        f'<span style="color:{s_color};font-weight:700;">{status}</span>'
+                        f'</div></div>',
+                        unsafe_allow_html=True,
+                    )
+
+                    # Feature context (descriptive — not causal)
+                    st.markdown(
+                        '<div style="font-size:12px;color:#8892A4;margin:12px 0 4px 0;'
+                        'text-transform:uppercase;letter-spacing:1px;">'
+                        'Feature Context (Descriptive)</div>',
+                        unsafe_allow_html=True,
+                    )
+                    ctx_cols = st.columns(4)
+                    ctx_items = [
+                        ("Time Period",         context["time_period"]),
+                        ("24h Trend",           f"{context['recent_24h_trend']} "
+                                                f"(mean={context['rolling_mean_24h']:.2f})"),
+                        ("1h Prior Occupancy",  f"{context['lag_1h']:.1%}"),
+                        ("24h Prior Occupancy", f"{context['lag_24h']:.1%}"),
+                    ]
+                    for col, (label, val) in zip(ctx_cols, ctx_items):
+                        col.metric(label, val)
+
+                    with st.expander("🔍 Feature Vector Sent to Model", expanded=False):
+                        st.caption(
+                            "These are the exact 16 values passed to the saved "
+                            "RandomForest model. All values are derived from "
+                            "historical data — none are fabricated."
+                        )
+                        feat_display = {
+                            k: round(v, 6) if isinstance(v, float) else v
+                            for k, v in feature_dict.items()
+                        }
+                        st.json(feat_display)
+
+                    # ───────────────────────────────────────────────────────
+                    # Phase 5 — Explainability sections
+                    # ───────────────────────────────────────────────────────
+                    import time as _time
+
+                    # Phase 5 services may be None if loading failed; degrade gracefully.
+                    _expl = expl_svc   # captured from cache_resource above
+                    _log  = inf_logger
+
+                    if _expl is not None:
+                        # Measure latency for this prediction + explanation call
+                        _t0 = _time.perf_counter()
+                        _top_ctx   = _expl.top_n_feature_context(feature_dict, n=5)
+                        _dispersion = _expl.tree_dispersion(feature_dict)
+                        _latency_ms = (_time.perf_counter() - _t0) * 1000
+
+                        # Inference log
+                        if _log is not None:
+                            try:
+                                from src.services.inference_logger import InferenceLogger
+                                _model_version = (
+                                    forecast_svc.model_metadata or {}
+                                ).get("trained_at", "unknown")
+                                _log.log(
+                                    station_id=ml_station,
+                                    prediction_time=prediction_time,
+                                    predicted_occupancy=result["predicted_occupancy"],
+                                    status=result["status"],
+                                    model_version=_model_version,
+                                    inference_latency_ms=_latency_ms,
+                                    source="streamlit",
+                                    key_features=InferenceLogger.extract_key_features(
+                                        feature_dict
+                                    ),
+                                )
+                            except Exception:
+                                pass  # logging failure is non-fatal
+
+                        # ── 1) Feature Context ────────────────────────────────
+                        with st.expander(
+                            "📈 Feature Importance — Features Used for This Prediction",
+                            expanded=True,
+                        ):
+                            st.caption(
+                                "📊 These are the top-5 features by **global MDI importance** "
+                                "(Mean Decrease in Impurity) from the trained RandomForest, "
+                                "together with the **actual values supplied** for this prediction. "
+                                "MDI measures predictive association learned during training. "
+                                "It does NOT imply causality and is not a per-prediction attribution."
+                            )
+                            import plotly.graph_objects as _go
+                            _fi_names  = [item["feature"]   for item in _top_ctx]
+                            _fi_vals   = [item["importance"] for item in _top_ctx]
+                            _fi_inputs = [item["value"]      for item in _top_ctx]
+                            _bar_fig = _go.Figure(
+                                _go.Bar(
+                                    y=_fi_names[::-1],
+                                    x=_fi_vals[::-1],
+                                    orientation="h",
+                                    marker=dict(color="#6366F1"),
+                                    text=[f"{v:.4f}" for v in _fi_vals[::-1]],
+                                    textposition="outside",
+                                )
+                            )
+                            _bar_fig.update_layout(
+                                height=200,
+                                margin=dict(l=0, r=10, t=10, b=0),
+                                paper_bgcolor="rgba(0,0,0,0)",
+                                plot_bgcolor="rgba(0,0,0,0)",
+                                font=dict(color="#E2E8F0", size=12),
+                                xaxis=dict(
+                                    title="MDI Importance",
+                                    color="#8892A4",
+                                    range=[0, max(_fi_vals) * 1.2],
+                                    showgrid=False,
+                                ),
+                                yaxis=dict(color="#E2E8F0"),
+                            )
+                            st.plotly_chart(_bar_fig, use_container_width=True)
+
+                            st.markdown(
+                                '<div style="font-size:12px;color:#8892A4;margin:8px 0 4px 0;'
+                                'text-transform:uppercase;letter-spacing:1px;">'
+                                'Actual values used in this prediction</div>',
+                                unsafe_allow_html=True,
+                            )
+                            _ctx_cols2 = st.columns(5)
+                            for _ci, (_col2, _item) in enumerate(
+                                zip(_ctx_cols2, _top_ctx)
+                            ):
+                                _col2.metric(
+                                    label=_item["feature"],
+                                    value=f"{_item['value']:.4f}",
+                                    help=f"Global MDI importance: {_item['importance']:.5f}",
+                                )
+
+                        # ── 2) Tree Prediction Spread ──────────────────────────
+                        st.markdown(
+                            '<div style="font-size:12px;color:#8892A4;margin:16px 0 4px 0;'
+                            'text-transform:uppercase;letter-spacing:1px;">'
+                            '🌳 Tree Prediction Spread — Estimator Dispersion</div>',
+                            unsafe_allow_html=True,
+                        )
+                        st.caption(
+                            "📌 This measures **variation among the individual RandomForest estimators** "
+                            f"({_dispersion['estimator_count']} trees) for this specific input. "
+                            "It is **NOT a probability, confidence interval, or calibrated "
+                            "uncertainty estimate**. A lower std indicates that the estimators "
+                            "are in close agreement."
+                        )
+                        _d_cols = st.columns(5)
+                        _d_cols[0].metric("tree std",            f"{_dispersion['tree_std']:.4f}")
+                        _d_cols[1].metric("p10",                  f"{_dispersion['p10']:.4f}")
+                        _d_cols[2].metric("p90",                  f"{_dispersion['p90']:.4f}")
+                        _d_cols[3].metric(
+                            "Status consensus",
+                            f"{_dispersion['status_consensus_pct']:.1f}%",
+                            help=(
+                                f"Percentage of the {_dispersion['estimator_count']} trees whose "
+                                "prediction maps to the same status bucket as the aggregate result."
+                            ),
+                        )
+                        _d_cols[4].metric("Estimators", f"{_dispersion['estimator_count']}")
+
+                    # ── 3) Model Metadata ────────────────────────────────────
+                    _meta = forecast_svc.model_metadata or {}
+                    if _meta:
+                        with st.expander("🗂️ Model Artifact Metadata", expanded=False):
+                            st.caption(
+                                "All values loaded directly from "
+                                "`artifacts/models/demand_forecaster_metadata.json`. "
+                                "Nothing is hard-coded or fabricated."
+                            )
+                            _test_m = _meta.get("test_metrics", {})
+                            _val_m  = _meta.get("val_metrics",  {})
+                            _meta_c1, _meta_c2, _meta_c3 = st.columns(3)
+                            _meta_c1.metric("Test MAE",
+                                f"{_test_m.get('MAE', 'N/A')}")
+                            _meta_c2.metric("Test RMSE",
+                                f"{_test_m.get('RMSE', 'N/A')}")
+                            _meta_c3.metric("Test R²",
+                                f"{_test_m.get('R2', 'N/A')}")
+                            _meta_c4, _meta_c5, _meta_c6 = st.columns(3)
+                            _meta_c4.metric("n estimators",
+                                f"{_meta.get('n_estimators', 'N/A')}")
+                            _meta_c5.metric("max depth",
+                                f"{_meta.get('max_depth', 'N/A')}")
+                            _meta_c6.metric("min samples leaf",
+                                f"{_meta.get('min_samples_leaf', 'N/A')}")
+                            _td = _meta.get("train_dates", {})
+                            _tsd = _meta.get("test_dates", {})
+                            st.markdown(
+                                f"""
+| Field | Value |
+|---|---|
+| trained at | `{_meta.get('trained_at', 'N/A')}` |
+| Train period | `{_td.get('min','?')}` → `{_td.get('max','?')}` ({_td.get('rows',0):,} rows) |
+| Test period | `{_tsd.get('min','?')}` → `{_tsd.get('max','?')}` ({_tsd.get('rows',0):,} rows) |
+| val MAE | {_val_m.get('MAE','N/A')} · val R² | {_val_m.get('R2','N/A')} |
+                                """
+                            )
+
+                except (InsufficientHistoryError, UnknownStationError) as exc:
+                    st.warning(f"⚠️ {exc}")
+                except Exception as exc:
+                    st.error(f"🚨 Prediction failed: {exc}")
+
+
 # ═══════════════════════════════════════════════════════════════════════════════
-# PAGE 4 — SMART STATION RECOMMENDER
+# PAGE 4 — SMART STATION RECOMMENDER (ML-BACKED DECISION ENGINE)
 # ═══════════════════════════════════════════════════════════════════════════════
+
+@st.cache_resource(show_spinner=False)
+def _load_decision_service():
+    """Load DecisionService facade orchestrating real ML forecasts & ranking."""
+    try:
+        from src.services.decision_service import DecisionService
+        feat_svc = _load_feature_service()
+        forecast_svc = _load_forecast_service()
+        expl_svc = _load_explainability_service()
+        rag_svc = _load_rag_service()
+
+        if isinstance(feat_svc, Exception) or isinstance(forecast_svc, Exception):
+            return None
+        return DecisionService(
+            forecast_service=forecast_svc,
+            feature_service=feat_svc,
+            explainability_service=expl_svc if not isinstance(expl_svc, Exception) else None,
+            rag_service=rag_svc if not isinstance(rag_svc, Exception) else None,
+        )
+    except Exception as exc:
+        return exc
+
 
 def page_recommender(stations_df, realtime_df):
-    st.markdown('<div class="page-title">🧭 Smart Station Recommender</div>', unsafe_allow_html=True)
-    st.markdown('<div class="page-subtitle">Multi-criteria AI scoring: proximity · availability · wait time · amenities · cost</div>', unsafe_allow_html=True)
+    st.markdown('<div class="page-title">🧭 Smart Station Recommender (ML Decision Engine)</div>', unsafe_allow_html=True)
+    st.markdown(
+        '<div class="page-subtitle">'
+        'Real ML-backed decision engine: evaluates target station predicted occupancy &amp; ranks candidate alternatives in same city'
+        '</div>',
+        unsafe_allow_html=True
+    )
 
-    # Input form
-    c1, c2, c3 = st.columns(3)
+    st.info(
+        "📌 **Important Note**: Occupancy values are **RandomForest ML model predictions** based on "
+        "historical project data, not real-time IoT charger availability."
+    )
+
+    dec_svc = _load_decision_service()
+    if dec_svc is None or isinstance(dec_svc, Exception):
+        st.error(f"🚨 Failed to load DecisionService: {dec_svc}")
+        return
+
+    # Input controls
+    st.markdown('<div class="section-header">🎯 Target Charging Station &amp; Prediction Context</div>', unsafe_allow_html=True)
+    c1, c2, c3, c4 = st.columns(4)
+
+    station_options = [
+        f"{r['station_id']} — {r['name']}" for _, r in stations_df.iterrows()
+    ]
     with c1:
-        loc_name = st.selectbox("📍 Your Location", list(LOCATION_OPTIONS.keys()), key="rec_loc")
+        sel_station_str = st.selectbox("📍 Target Station", station_options, index=0, key="p7_station_select")
+        sel_station_id = sel_station_str.split(" — ")[0]
     with c2:
-        vehicle = st.selectbox("🚗 Your Vehicle", VEHICLE_OPTIONS, key="rec_veh")
+        pred_date = st.date_input("📅 Prediction Date", value=datetime.strptime("2025-06-15", "%Y-%m-%d"), key="p7_date")
     with c3:
-        battery = st.slider("🔋 Battery Remaining (%)", 5, 80, 18, key="rec_bat")
-
-    c4, c5 = st.columns([2, 1])
+        pred_hour = st.selectbox("⏰ Hour of Day", [f"{h:02d}:00" for h in range(24)], index=19, key="p7_hour")
     with c4:
-        max_dist = st.slider("🔍 Search Radius (km)", 5, 50, 25, key="rec_dist")
+        pred_temp = st.slider("🌡️ Temperature (°C)", 10.0, 45.0, 28.0, 1.0, key="p7_temp")
+
+    c5, c6 = st.columns(2)
     with c5:
-        st.markdown("<br>", unsafe_allow_html=True)
-        find_btn = st.button("⚡ Find Best Station", use_container_width=True, key="rec_find")
+        is_holiday_val = st.checkbox("🎉 Public Holiday", value=False, key="p7_holiday")
+    with c6:
+        inc_rag = st.checkbox("📚 Attach Grounded AI Domain Advice (RAG)", value=False, key="p7_rag_toggle")
 
-    # Show scoring guide before first search
-    if not find_btn and "rec_results" not in st.session_state:
-        st.markdown('<div class="section-divider"></div>', unsafe_allow_html=True)
-        st.markdown('<div class="section-header">📐 How the AI Scores Stations</div>', unsafe_allow_html=True)
-        weights = {"Proximity (35%)": 35, "Availability (30%)": 30,
-                   "Wait Time (20%)": 20, "Amenities (10%)": 10, "Cost (5%)": 5}
-        fig_w = go.Figure(go.Bar(
-            x=list(weights.values()), y=list(weights.keys()), orientation="h",
-            marker=dict(color=["#00D4AA","#7B61FF","#FFB347","#FF8C00","#8892A4"]),
-            text=[f"{v}%" for v in weights.values()], textposition="outside",
-        ))
-        fig_w.update_xaxes(range=[0, 44])
-        style_fig(fig_w, height=260, title="Weighted Scoring Formula — Fully Transparent AI")
-        st.plotly_chart(fig_w, use_container_width=True, config=_CFG)
+    prediction_time_str = f"{pred_date.strftime('%Y-%m-%d')} {pred_hour}:00"
 
-        st.info("👆 Select your location and vehicle above, then click **Find Best Station** to get AI-powered recommendations.")
-        return
+    dec_btn = st.button("⚡ Generate AI Decision &amp; Reroute Recommendation", use_container_width=True, key="p7_dec_btn")
 
-    # Run recommender
-    user_lat, user_lon = LOCATION_OPTIONS[loc_name]
-    try:
-        from models.recommender import StationRecommender
-        rec = StationRecommender()
-        results = rec.recommend(
-            user_lat=user_lat, user_lon=user_lon,
-            vehicle_type=vehicle, realtime_df=realtime_df,
-            stations_df=stations_df, max_distance_km=max_dist, top_k=3,
-        )
-        st.session_state["rec_results"] = results
-        st.session_state["rec_meta"]    = (loc_name, vehicle, battery)
-    except Exception as e:
-        st.error(f"Recommender error: {e}")
-        import traceback; st.code(traceback.format_exc())
-        return
+    if dec_btn:
+        try:
+            with st.spinner("Executing ML feature pipeline, forecaster, candidate ranking & policy evaluation ..."):
+                res = dec_svc.recommend(
+                    station_id=sel_station_id,
+                    prediction_time=prediction_time_str,
+                    temperature_c=pred_temp,
+                    is_holiday=is_holiday_val,
+                    max_alternatives=3,
+                    include_rag_context=inc_rag,
+                )
 
-    results = st.session_state.get("rec_results", pd.DataFrame())
-    if results.empty:
-        st.warning(f"No compatible stations within {max_dist} km. Try expanding the search radius or selecting a different vehicle type.")
-        return
+            st.markdown('<div class="section-divider"></div>', unsafe_allow_html=True)
 
-    st.markdown('<div class="section-divider"></div>', unsafe_allow_html=True)
-    _loc, _veh, _bat = st.session_state.get("rec_meta", (loc_name, vehicle, battery))
-    st.markdown(f'<div class="section-header">🏆 Top Recommendations for {_veh} near {_loc} (Battery: {_bat}%)</div>',
-                unsafe_allow_html=True)
+            selected_st = res["selected_station"]
+            rec = res["recommendation"]
+            reason = res["recommendation_reason"]
+            top_alt = res["top_alternative"]
+            alts = res["alternatives"]
+            policy = res["policy_thresholds"]
 
-    medals = ["🥇", "🥈", "🥉"]
-    sc_colors = ["#00D4AA", "#7B61FF", "#FFB347"]
+            # ── Target Station Status Card ──────────────────────────────────────
+            st.markdown('<div class="section-header">📊 Target Station ML Prediction</div>', unsafe_allow_html=True)
+            t_col1, t_col2, t_col3, t_col4 = st.columns(4)
+            t_col1.metric("Station ID", selected_st["station_id"])
+            t_col2.metric("City", selected_st["city"])
+            t_col3.metric("Predicted Occupancy", f"{selected_st['predicted_occupancy']*100:.1f}%")
+            t_col4.metric("Predicted Status", selected_st["status"])
 
-    try:
-        from models.recommender import StationRecommender
-        _rec = StationRecommender()
-    except Exception:
-        _rec = None
+            # ── Decision Banner ─────────────────────────────────────────────────
+            st.markdown('<div class="section-header">⚖️ AI Decision Policy Outcome</div>', unsafe_allow_html=True)
+            if rec == "STAY":
+                st.success(f"🟢 **RECOMMENDATION: STAY AT STATION**\n\n{reason}")
+            elif rec == "REROUTE":
+                st.error(f"🔴 **RECOMMENDATION: REROUTE TO ALTERNATIVE STATION**\n\n{reason}")
+            else:
+                st.warning(f"🟠 **RECOMMENDATION: NO BETTER ALTERNATIVE**\n\n{reason}")
 
-    for i, (_, row) in enumerate(results.iterrows()):
-        wait    = float(row.get("estimated_wait_mins", 0))
-        dist    = float(row.get("distance_km", 0))
-        avail   = int(row.get("available_slots", 0))
-        score   = float(row.get("final_score", 0))
-        status  = str(row.get("status", ""))
+            st.caption(
+                f"Policy Rules: BUSY_THRESHOLD = {policy['busy_threshold']*100:.0f}% occupancy · "
+                f"MIN_OCCUPANCY_IMPROVEMENT = {policy['min_occupancy_improvement']*100:.0f}% improvement."
+            )
 
-        status_badge = {"AVAILABLE":"badge-green","MODERATE":"badge-amber",
-                        "BUSY":"badge-amber","CRITICAL":"badge-red"}.get(status,"badge-gray")
-        slot_badge   = "badge-green" if avail > 0 else "badge-red"
-        wait_badge   = "badge-green" if wait < 5 else "badge-amber" if wait < 15 else "badge-red"
+            # ── Candidate Alternative Stations Table ─────────────────────────────
+            st.markdown('<div class="section-header">🏆 Ranked Candidate Alternatives (Same City &amp; Compatible Charger)</div>', unsafe_allow_html=True)
+            if not alts:
+                st.warning("No compatible candidate alternative stations were found in this city.")
+            else:
+                medals = ["🥇", "🥈", "🥉"]
+                for i, alt in enumerate(alts):
+                    m = medals[i] if i < len(medals) else f"#{i+1}"
+                    imp = alt["occupancy_improvement"]
+                    imp_str = f"+{imp*100:.1f}% improvement" if imp > 0 else f"{imp*100:.1f}% delta"
+                    badge_color = "badge-green" if imp >= policy["min_occupancy_improvement"] else "badge-amber"
 
-        explain = _rec.explain(row) if _rec else "Balanced score across all criteria"
-
-        st.markdown(f"""
+                    st.markdown(f"""
 <div class="station-card">
   <div style="display:flex;justify-content:space-between;align-items:flex-start;">
-    <div style="flex:1;">
-      <div style="font-size:22px;margin-bottom:4px;">{medals[i]}</div>
-      <div style="font-size:15px;font-weight:700;color:#E2E8F0;margin-bottom:3px;">{row.get('name','Station')}</div>
-      <div style="font-size:12px;color:#8892A4;margin-bottom:10px;">{row.get('city','')} &middot; {row.get('operator','')} &middot; {row.get('charger_type','')}</div>
+    <div>
+      <div style="font-size:20px;">{m} <b>{alt['station_id']}</b> — {alt['name']}</div>
+      <div style="font-size:12px;color:#8892A4;">{alt['city']} &middot; {alt['charger_type']} &middot; Distance: <b>{alt['distance_km']:.1f} km away</b></div>
     </div>
-    <div style="text-align:right;padding-left:12px;">
-      <div style="font-size:28px;font-weight:900;color:{sc_colors[i]};">{score:.2f}</div>
-      <div style="font-size:10px;color:#8892A4;letter-spacing:1px;">AI SCORE</div>
+    <div style="text-align:right;">
+      <div style="font-size:24px;font-weight:900;color:#00D4AA;">{alt['predicted_occupancy']*100:.1f}%</div>
+      <div style="font-size:10px;color:#8892A4;">PREDICTED OCCUPANCY</div>
     </div>
   </div>
-  <div style="margin:8px 0 12px 0;">
-    <span class="badge badge-purple">&#128205; {dist:.1f} km away</span>
-    <span class="badge {slot_badge}">{'&#9989; '+str(avail)+' slots free' if avail>0 else '&#10060; No slots'}</span>
-    <span class="badge {wait_badge}">&#8987; {wait:.0f} min wait</span>
-    <span class="badge {status_badge}">{status}</span>
-  </div>
-  <div style="font-size:13px;color:#8892A4;background:rgba(0,212,170,0.05);
-              border-left:3px solid #00D4AA;border-radius:0 8px 8px 0;padding:10px 14px;">
-    &#128161; {explain}
+  <div style="margin-top:8px;">
+    <span class="badge {badge_color}">{imp_str}</span>
+    <span class="badge badge-purple">{alt['status']}</span>
   </div>
 </div>""", unsafe_allow_html=True)
 
-    # Score breakdown radar chart
-    st.markdown('<div class="section-divider"></div>', unsafe_allow_html=True)
-    st.markdown('<div class="section-header">📊 Score Breakdown — Radar View</div>', unsafe_allow_html=True)
+            # ── Explainability & Diagnostics ─────────────────────────────────────
+            if res.get("tree_dispersion"):
+                with st.expander("🌳 Model Estimator Dispersion & Diagnostics", expanded=False):
+                    td = res["tree_dispersion"]
+                    d_cols = st.columns(4)
+                    d_cols[0].metric("tree_mean", f"{td['tree_mean']:.4f}")
+                    d_cols[1].metric("tree_std", f"{td['tree_std']:.4f}")
+                    d_cols[2].metric("p10 - p90 spread", f"{td['p10']:.3f} – {td['p90']:.3f}")
+                    d_cols[3].metric("Status Consensus", f"{td['status_consensus_pct']:.1f}%")
+                    st.caption(td.get("disclaimer", ""))
 
-    score_cols   = ["proximity_score","availability_score","wait_score","amenity_score","cost_score"]
-    score_labels = ["Proximity","Availability","Wait Time","Amenities","Cost"]
+            # ── Grounded RAG Advice ──────────────────────────────────────────────
+            if inc_rag and res.get("rag_context"):
+                with st.expander("📚 Grounded Domain Context & Advice (Phase 6 RAG)", expanded=True):
+                    rag_res = res["rag_context"]
+                    st.markdown(f"**Grounded Answer**: {rag_res['answer']}")
+                    for idx, src in enumerate(rag_res.get("sources", []), 1):
+                        st.caption(f"Source {idx}: `{src['source']}` ({src.get('section_title','')})")
 
-    if all(c in results.columns for c in score_cols):
-        fig_r = go.Figure()
-        for i, (_, row) in enumerate(results.iterrows()):
-            vals = [float(row.get(c, 0)) for c in score_cols]
-            vals_c = vals + [vals[0]]
-            lbl_c  = score_labels + [score_labels[0]]
-            r_int = tuple(int(sc_colors[i].lstrip("#")[j:j+2], 16) for j in (0,2,4))
-            fig_r.add_trace(go.Scatterpolar(
-                r=vals_c, theta=lbl_c, fill="toself",
-                name=f"#{i+1} {row.get('city','')}",
-                line=dict(color=sc_colors[i], width=2.5),
-                fillcolor=f"rgba({r_int[0]},{r_int[1]},{r_int[2]},0.10)",
-            ))
-        fig_r.update_layout(
-            polar=dict(radialaxis=dict(visible=True, range=[0,1],
-                                       gridcolor="rgba(255,255,255,0.08)", color="#8892A4"),
-                       angularaxis=dict(color="#E2E8F0")),
-            showlegend=True, height=380,
-            paper_bgcolor="rgba(0,0,0,0)", plot_bgcolor="rgba(0,0,0,0)",
-            font=dict(color="#E2E8F0", family="Inter, sans-serif"),
-            legend=dict(bgcolor="rgba(0,0,0,0)", font=dict(color="#E2E8F0")),
-            margin=dict(l=60,r=60,t=20,b=20),
-        )
-        st.plotly_chart(fig_r, use_container_width=True, config=_CFG)
-
-    # Weights explanation
-    with st.expander("📖 How the Score is Computed", expanded=False):
-        st.markdown("""
-| Criterion | Weight | Logic |
-|---|---|---|
-| **Proximity** | 35% | `1 / (1 + distance_km)` — nearest wins |
-| **Availability** | 30% | `available_slots / total_slots` — open slots win |
-| **Wait Time** | 20% | `1 / (1 + estimated_wait_mins)` — shorter wins |
-| **Amenities** | 10% | `amenities_score / 10` — comfort matters |
-| **Cost** | 5% | `1 / (1 + tariff_per_kwh)` — cheaper wins |
-
-All sub-scores are **min-max normalized** to [0, 1] before weighting.  
-Weights can be tuned per user segment (e.g., fleet drivers prioritize cost; commuters prioritize proximity).
-        """)
+        except (UnknownStationError, InsufficientHistoryError) as exc:
+            st.warning(f"⚠️ {exc}")
+        except Exception as exc:
+            st.error(f"🚨 Decision Engine Error: {exc}")
 
 
 # ═══════════════════════════════════════════════════════════════════════════════
@@ -992,6 +1339,118 @@ def page_analytics(sessions_df, stations_df, realtime_df):
 
 
 # ═══════════════════════════════════════════════════════════════════════════════
+# PAGE 6 — RAG AI KNOWLEDGE ASSISTANT
+# ═══════════════════════════════════════════════════════════════════════════════
+
+@st.cache_resource(show_spinner=False)
+def _load_rag_service():
+    """Load and initialize RAGService facade once per session."""
+    try:
+        from src.rag.rag_service import RAGService
+        from src.rag.llm_provider import GeminiLLMProvider
+        svc = RAGService(llm_provider=GeminiLLMProvider())
+        svc.initialize()
+        return svc
+    except Exception as exc:
+        return exc
+
+
+def page_knowledge_assistant():
+    st.markdown('<div class="page-title">💬 AI Knowledge Assistant (RAG)</div>', unsafe_allow_html=True)
+    st.markdown(
+        '<div class="page-subtitle">'
+        'Decoupled Knowledge Intelligence Layer — Evidence-based Q&amp;A grounded in verified ChargeFlow AI documentation'
+        '</div>',
+        unsafe_allow_html=True
+    )
+
+    rag_svc = _load_rag_service()
+
+    if isinstance(rag_svc, Exception):
+        st.error(f"🚨 Failed to load RAG Knowledge Engine: {rag_svc}")
+        return
+
+    st.markdown(
+        '<div style="font-size:13px;color:#8892A4;margin-bottom:16px;">'
+        'Ask questions about ChargeFlow architecture, demand forecasting ML models, feature engineering, '
+        'or India EV charging statistics. Answers are dynamically retrieved and grounded in verified project documents.'
+        '</div>',
+        unsafe_allow_html=True
+    )
+
+    # Sample prompt buttons
+    st.caption("Suggested questions:")
+    s_col1, s_col2, s_col3 = st.columns(3)
+    q_preset = None
+    if s_col1.button("🔮 What features does the demand model use?", key="rag_preset_1"):
+        q_preset = "What features does the demand forecasting model use?"
+    if s_col2.button("📊 What is the average utilization in India?", key="rag_preset_2"):
+        q_preset = "What is the average charger utilization in India?"
+    if s_col3.button("⚖️ How is model feature importance defined?", key="rag_preset_3"):
+        q_preset = "What does feature importance mean in the ChargeFlow model?"
+
+    default_q = q_preset if q_preset else ""
+    user_query = st.text_input("💬 Ask the Knowledge Base:", value=default_q, key="rag_query_input",
+                               placeholder="e.g. How does the station recommender score stations?")
+
+    col_btn, col_thresh = st.columns([3, 2])
+    with col_btn:
+        ask_btn = st.button("⚡ Ask Knowledge Assistant", use_container_width=True, key="rag_ask_btn")
+    with col_thresh:
+        thresh_val = st.slider("🎯 Retrieval Similarity Threshold", 0.05, 0.50, 0.15, 0.01, key="rag_thresh_slider")
+
+    if ask_btn or q_preset:
+        if not user_query.strip():
+            st.warning("⚠️ Please enter a valid question.")
+            return
+
+        with st.spinner("Retrieving evidence chunks & generating grounded response ..."):
+            res = rag_svc.query(user_query, top_k=3, threshold=thresh_val)
+
+        is_grounded = res["grounded"]
+        confidence = res["confidence_score"]
+        sources = res["sources"]
+        answer = res["answer"]
+        latency = res["latency_ms"]
+
+        st.markdown('<div class="section-divider"></div>', unsafe_allow_html=True)
+
+        # Grounding status badge
+        if is_grounded:
+            st.markdown(
+                f'<div class="kpi-card" style="margin:12px 0;border-left:4px solid #00D4AA;">'
+                f'<div class="kpi-label">GROUNDED EVIDENCE ANSWER &nbsp; &middot; &nbsp; '
+                f'<span style="color:#00D4AA;font-weight:700;">Top Score: {confidence:.4f}</span> &nbsp; &middot; &nbsp; '
+                f'<span style="color:#8892A4;">{latency:.1f} ms</span></div>'
+                f'<div style="font-size:15px;color:#E2E8F0;line-height:1.7;margin-top:8px;">{answer}</div>'
+                f'</div>',
+                unsafe_allow_html=True
+            )
+        else:
+            st.markdown(
+                f'<div class="kpi-card" style="margin:12px 0;border-left:4px solid #FFB347;">'
+                f'<div class="kpi-label">EVIDENCE REFUSAL / LOW CONFIDENCE &nbsp; &middot; &nbsp; '
+                f'<span style="color:#FFB347;font-weight:700;">Max Score: {confidence:.4f}</span> &nbsp; &middot; &nbsp; '
+                f'<span style="color:#8892A4;">Threshold: {thresh_val:.2f}</span></div>'
+                f'<div style="font-size:15px;color:#E2E8F0;line-height:1.7;margin-top:8px;">{answer}</div>'
+                f'</div>',
+                unsafe_allow_html=True
+            )
+
+        # Sources expander
+        with st.expander(f"📚 Retrieved Evidence Sources ({len(sources)} chunks meeting threshold)", expanded=is_grounded):
+            if not sources:
+                st.caption("No knowledge base chunks met the similarity threshold.")
+            else:
+                for idx, src in enumerate(sources, 1):
+                    st.markdown(
+                        f"**Snippet {idx}** — `{src['source']}` (Section: *{src.get('section_title','General')}*) — "
+                        f"**Similarity Score:** `{src['similarity_score']:.4f}`"
+                    )
+                    st.code(src["text"], language="markdown")
+
+
+# ═══════════════════════════════════════════════════════════════════════════════
 # SIDEBAR
 # ═══════════════════════════════════════════════════════════════════════════════
 
@@ -1012,6 +1471,7 @@ def render_sidebar(realtime_df):
             "🧭  Smart Recommender",
             "📊  Analytics & Insights",
             "⚡  Unified Experience",
+            "💬  AI Knowledge Assistant",
         ], key="main_nav")
 
         st.markdown('<hr style="border-color:rgba(0,212,170,0.15);margin:14px 0;">', unsafe_allow_html=True)
@@ -1100,6 +1560,7 @@ def main():
     elif "Recommender" in page: page_recommender(stations_df, active_realtime)
     elif "Analytics" in page: page_analytics(sessions_df, stations_df, active_realtime)
     elif "Unified"   in page: page_unified_experience(stations_df, active_realtime)
+    elif "Assistant" in page: page_knowledge_assistant()
 
 
 if __name__ == "__main__":

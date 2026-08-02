@@ -1,0 +1,21 @@
+# Docker build exclusions for ChargeFlow AI V2
+.git
+.gitignore
+.gitattributes
+.github
+.venv
+env
+venv
+__pycache__
+*.pyc
+*.pyo
+.pytest_cache
+logs/*.jsonl
+logs/*.log
+.env
+.env.*
+.streamlit/secrets.toml
+api_pid.txt
+.vscode
+.idea
+.DS_Store
