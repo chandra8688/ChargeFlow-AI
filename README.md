@@ -99,7 +99,7 @@ flowchart TD
 *   **Dense Embeddings**: `SentenceTransformer("all-MiniLM-L6-v2")` generating 384-dimensional L2-normalized dense vectors.
 *   **Vector Store Math**: In-memory matrix multiplication ($Q \cdot V^T$) executing exact Cosine Similarity queries in $< 15$ ms on CPU without external vector DB dependencies.
 *   **Evidence-Based Refusal**: Hard similarity score thresholding ($S_{min} = 0.40$). If no document chunk meets $0.40$ similarity, the system returns `grounded=False` refusal text **WITHOUT calling the LLM**.
-*   **LLM Provider**: REST API integration with Google Gemini (`gemini-1.5-flash`). Decoupled so retrieval and refusal function 100% offline without API keys.
+*   **LLM Provider**: REST API integration with Google Gemini (`gemini-2.5-flash`). Decoupled so retrieval and refusal function 100% offline without API keys.
 
 ---
 

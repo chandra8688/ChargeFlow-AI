@@ -46,9 +46,24 @@ class GeminiLLMProvider(LLMProvider):
     Google Gemini REST API implementation using httpx.
     """
 
-    def __init__(self, api_key: Optional[str] = None, model_name: str = "gemini-1.5-flash"):
-        self.api_key = api_key or os.getenv("GEMINI_API_KEY")
-        self.model_name = model_name
+    def __init__(self, api_key: Optional[str] = None, model_name: Optional[str] = None):
+        key = api_key or os.getenv("GEMINI_API_KEY")
+        if not key:
+            try:
+                import streamlit as st
+                key = st.secrets.get("GEMINI_API_KEY")
+            except Exception:
+                pass
+        self.api_key = key
+
+        model = model_name or os.getenv("GEMINI_MODEL")
+        if not model:
+            try:
+                import streamlit as st
+                model = st.secrets.get("GEMINI_MODEL")
+            except Exception:
+                pass
+        self.model_name = model or "gemini-2.5-flash"
         self.endpoint = f"https://generativelanguage.googleapis.com/v1beta/models/{self.model_name}:generateContent"
 
     def is_available(self) -> bool:
